@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: #fff; }
+  #root { position: relative; width: 100%; height: 100%; }
+
+  /* ── badge de fase ── */
+  #phase-badge {
+    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,40,85,.85); color: #fff;
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    padding: 4px 16px; border-radius: 20px; white-space: nowrap;
+    transition: opacity .4s ease;
+    pointer-events: none; z-index: 10;
+  }
+
+  /* ── panel lógica (aparece en última fase) ── */
+  #logic-panel {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(255,255,255,.97);
+    border: 1.5px solid #bfdbfe; border-radius: 8px;
+    padding: 10px 16px; font-size: 13px;
+    font-family: 'Inter', sans-serif; line-height: 2;
+    color: #374151;
+    opacity: 0; transition: opacity .6s ease;
+    pointer-events: none; z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    min-width: 230px;
+  }
+  #logic-panel .g1 { color: #2563eb; font-weight: 700; }
+  #logic-panel .g2 { color: #dc2626; font-weight: 700; }
+  #logic-panel .op { color: #6b7280; }
+  #logic-panel .res { color: #059669; font-weight: 700; }
+
+  /* ── dot progress ── */
+  #dots {
+    position: absolute; bottom: 10px; right: 14px;
+    display: flex; gap: 5px; z-index: 10;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #d1d5db; transition: background .35s ease;
+  }
+  .dot.on { background: #2563eb; }
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="target"></div>
+  <div id="phase-badge">18 neonatos · PC (cm) · Fundación Canguro</div>
+  <div id="logic-panel"></div>
+  <div id="dots"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="TimeWidget.demo.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════
+   DATOS — 18 neonatos, perímetro craneal (cm), semanas 40-90
+   ====================================================== */
+const WEEKS  = [40,44,48,52,56,60,65,70,76,82,90];
+const CURVES = [
+  // abajo de -2SD → en riesgo
+  [27.0,28.5,29.4,30.2,30.8,31.2,31.5,31.8,32.1,32.4,32.6],
+  [26.8,28.1,29.0,29.8,30.3,30.7,31.0,31.3,31.6,31.8,32.0],
+  [27.4,29.0,30.0,30.8,31.4,31.8,32.0,32.3,32.5,32.8,33.0],
+  // ligeramente bajo
+  [28.5,30.2,31.4,32.4,33.1,33.6,34.0,34.4,34.8,35.1,35.4],
+  [28.2,30.0,31.2,32.2,32.9,33.4,33.8,34.2,34.6,34.9,35.2],
+  // normal-bajo (corredor)
+  [30.1,32.0,33.5,34.7,35.5,36.2,36.8,37.3,37.8,38.2,38.6],
+  [30.4,32.3,33.8,35.0,35.9,36.5,37.1,37.6,38.1,38.5,38.9],
+  [29.8,31.7,33.2,34.4,35.3,35.9,36.5,37.0,37.5,37.9,38.3],
+  [30.6,32.5,34.0,35.2,36.1,36.8,37.4,37.9,38.3,38.7,39.1],
+  // normal (cerca de P50)
+  [31.5,33.5,35.2,36.6,37.6,38.3,38.9,39.4,39.9,40.3,40.7],
+  [31.8,33.8,35.5,36.9,37.9,38.6,39.2,39.7,40.2,40.6,41.0],
+  [31.2,33.2,34.8,36.2,37.2,37.9,38.5,39.0,39.5,39.9,40.3],
+  [32.0,34.0,35.7,37.1,38.1,38.9,39.5,40.0,40.4,40.8,41.2],
+  // normal-alto
+  [33.0,35.1,36.9,38.4,39.4,40.2,40.8,41.3,41.8,42.2,42.6],
+  [33.4,35.5,37.3,38.8,39.9,40.7,41.3,41.8,42.3,42.7,43.1],
+  [32.8,34.9,36.7,38.2,39.2,40.0,40.6,41.1,41.6,42.0,42.4],
+  // alto
+  [34.2,36.4,38.3,39.8,40.9,41.7,42.4,42.9,43.4,43.8,44.2],
+  [34.6,36.8,38.7,40.2,41.3,42.1,42.8,43.3,43.8,44.2,44.6],
+];
+
+const IDS = CURVES.map((_,i)=>`neo_${i}`);
+const data = [];
+CURVES.forEach((vals, ci) => {
+  vals.forEach((v, wi) => {
+    data.push({ id: IDS[ci], x: WEEKS[wi], y: +v.toFixed(1) });
+  });
+});
+
+/* ── OMS curvas (−2SD, P50) — valores aproximados ── */
+const OMS_M2SD = WEEKS.map(w => [w, 25.5 + (w-40)*0.138]);  // −2SD approx
+const OMS_P50  = WEEKS.map(w => [w, 29.0 + (w-40)*0.152]);  // P50 approx
+
+/* ── Puntos de referencia para filtro ε — patrón "normal cerca de P50" ── */
+const EPS_PTS = [[48,35.5],[56,37.9],[65,39.2],[76,40.2],[82,40.6]];
+
+/* ══════════════════════════════════════════════════════
+   WIDGET
+   ====================================================== */
+const target = document.getElementById('target');
+
+const w = Math.max(window.innerWidth  || 700);
+const h = Math.max(window.innerHeight || 440);
+
+const widget = TimeWidget(data, {
+  target,
+  x: d => d.x,
+  y: d => d.y,
+  id: d => d.id,
+  renderer: 'webgpu',
+  width:  w,
+  height: h - 34,            // dejar espacio al badge
+  margin: { left:46, top:22, bottom:38, right:12 },
+  xLabel: 'Semana postmenstrual',
+  yLabel: 'PC (cm)',
+  defaultColor: '#94a3b8',
+  defaultAlpha: 0.45,
+  noSelectedAlpha: 0.06,
+  noSelectedColor: '#cbd5e1',
+  selectedAlpha: 1.0,
+  showGrid: true,
+  autoUpdate: true,
+  showHelp: false,
+  brushesColorScale: d3.scaleOrdinal(['#2563eb','#dc2626','#d97706']),
+});
+
+const ts = widget.ts;
+
+/* ── añadir curvas de referencia OMS ── */
+// collisionActive:true en P50 para usar slider "below P50" en fase 5
+ts.addReferenceCurve([{
+  id: 'oms_p50', name: 'P50 OMS',
+  data: OMS_P50,
+  color: '#6b7280', strokeWidth: 1.6,
+  isSimplePoints: false, collisionActive: true,
+}]);
+ts.addReferenceCurve([{
+  id: 'oms_m2sd', name: '−2SD OMS',
+  data: OMS_M2SD,
+  color: '#dc2626', strokeWidth: 2, strokeDash: '8,5',
+  isSimplePoints: false, collisionActive: false,
+}]);
+// puntos de referencia para filtro ε (fase 6): patrón neo_10 ≈ P50 normal
+ts.addReferenceCurve([{
+  id: 'eps_pts', name: 'Patrón ε',
+  data: EPS_PTS,
+  color: '#7c3aed', pointRadius: 5, strokeWidth: 1.5, strokeDash: '',
+  isSimplePoints: true, collisionActive: true, epsilon: 2,
+}]);
+
+/* ══════════════════════════════════════════════════════
+   FASES DE ANIMACIÓN
+   ====================================================== */
+const badge  = document.getElementById('phase-badge');
+const panel  = document.getElementById('logic-panel');
+const dotsEl = document.getElementById('dots');
+
+/* dominio X: 40–90, dominio Y del widget: ~26-46 */
+const PHASES = [
+  {
+    label: '18 neonatos · PC (cm) · Fundación Canguro',
+    filters: [],
+    panel: false,
+    dur: 2800,
+  },
+  {
+    label: 'Grupo 1 · TimeBox · modo intersect',
+    filters: [{
+      name: 'Grupo 1', isEnable: true,
+      brushes: [{ mode:'intersect', aggregation:'and',
+        selectionDomain: [[48, 37.5],[68, 42.0]] }]
+    }],
+    panel: false,
+    dur: 3200,
+  },
+  {
+    label: 'Grupo 1 · TimeBox · modo contains (más restrictivo)',
+    filters: [{
+      name: 'Grupo 1', isEnable: true,
+      brushes: [{ mode:'contains', aggregation:'and',
+        selectionDomain: [[48, 37.5],[68, 42.0]] }]
+    }],
+    panel: false,
+    dur: 3000,
+  },
+  {
+    label: 'Grupo 1 · AND · dos filtros en el mismo grupo',
+    filters: [{
+      name: 'Grupo 1', isEnable: true,
+      brushes: [
+        { mode:'intersect', aggregation:'and', selectionDomain: [[48, 37.5],[68, 42.0]] },
+        { mode:'intersect', aggregation:'and', selectionDomain: [[52, 35.5],[80, 40.0]] },
+      ]
+    }],
+    panel: false,
+    dur: 3200,
+  },
+  {
+    label: 'G1 OR G2 · grupos separados · curvas por debajo de −2SD',
+    filters: [
+      {
+        name: 'Grupo 1', isEnable: true,
+        brushes: [
+          { mode:'intersect', aggregation:'and', selectionDomain: [[48, 36.5],[68, 41.5]] },
+          { mode:'intersect', aggregation:'and', selectionDomain: [[52, 34.5],[80, 39.5]] },
+        ]
+      },
+      {
+        name: 'Grupo 2', isEnable: true,
+        brushes: [
+          { mode:'intersect', aggregation:'and', selectionDomain: [[40, 26.5],[65, 33.5]] },
+        ]
+      },
+    ],
+    panel: 'g1org2',
+    dur: 3800,
+  },
+  {
+    // Slider corredor: series por debajo del P50 OMS en semanas 48-82
+    label: 'Grupo 1 · corredor below P50 OMS · semanas 48-82 (slider)',
+    filters: [{ name: 'Grupo 1', isEnable: true, brushes: [] }],
+    setup: () => {
+      // groupId=0 porque addFilters con wipeAll crea el primer grupo con id=0
+      ts.addSlider('oms_p50', 0, { leftX: 48, rightX: 82, side: 'below' });
+    },
+    panel: 'slider',
+    dur: 3800,
+  },
+  {
+    // Filtro de proximidad ε a puntos de referencia P50 normal
+    label: 'Grupo 1 · proximidad ε=2 cm a patrón P50 normal',
+    filters: [{ name: 'Grupo 1', isEnable: true, brushes: [] }],
+    setup: () => {
+      ts.addEpsilonAssociation('eps_pts', 0);
+    },
+    panel: 'eps',
+    dur: 3800,
+  },
+];
+
+/* dots */
+PHASES.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot';
+  dotsEl.appendChild(d);
+});
+const dots = dotsEl.querySelectorAll('.dot');
+
+const PANEL_CONTENT = {
+  g1org2: `
+    <div><span class="g1">G1</span><span class="op"> = TimeBox ∩ TimeBox</span></div>
+    <div><span class="g2">G2</span><span class="op"> = TimeBox bajo −2SD</span></div>
+    <div style="border-top:1px solid #e5e7eb;margin-top:5px;padding-top:5px">
+      <span class="op">resultado: </span><span class="res">G1 OR G2</span>
+    </div>`,
+  slider: `
+    <div><span class="g1">G1</span><span class="op"> = corredor below P50 OMS</span></div>
+    <div style="border-top:1px solid #e5e7eb;margin-top:5px;padding-top:5px">
+      <span class="op">tipo: </span><span class="res">slider (BVH ray-casting)</span>
+    </div>`,
+  eps: `
+    <div><span class="g1">G1</span><span class="op"> = ε=2 cm · 5 puntos P50 normal</span></div>
+    <div style="border-top:1px solid #e5e7eb;margin-top:5px;padding-top:5px">
+      <span class="op">tipo: </span><span class="res">ε-proximity (dist. punto-segmento)</span>
+    </div>`,
+};
+
+let phase = 0;
+
+function applyPhase(p) {
+  phase = Math.max(0, Math.min(p, PHASES.length - 1));
+  const { label, filters, setup, panel: panelKey } = PHASES[phase];
+  badge.textContent = `${label}  ·  ${phase + 1} / ${PHASES.length}`;
+  const showPanel = !!panelKey;
+  panel.style.opacity = showPanel ? '1' : '0';
+  if (showPanel && PANEL_CONTENT[panelKey]) panel.innerHTML = PANEL_CONTENT[panelKey];
+  dots.forEach((d, i) => d.classList.toggle('on', i === phase));
+
+  if (filters.length === 0) {
+    const groups = ts.getBrushesGroup();
+    groups.clear();
+    try { ts.recomputeSelection?.(); } catch(e) {}
+  } else {
+    ts.addFilters(filters, true);
+    if (setup) setup();
+  }
+}
+
+/* arrancar en fase 0 */
+setTimeout(() => { applyPhase(0); }, 600);
+
+/* control por postMessage desde la presentación padre */
+window.addEventListener('message', e => {
+  if (e.data?.type === 'next-phase') applyPhase(phase + 1);
+  if (e.data?.type === 'prev-phase') applyPhase(phase - 1);
+  if (e.data?.type === 'reset')      applyPhase(0);
+});
+
+</script>
+</body>
+</html>
