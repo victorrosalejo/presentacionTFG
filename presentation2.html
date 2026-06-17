@@ -851,7 +851,7 @@
         </div>
         <!-- Dos ramas de renderizado -->
         <div data-id="box-c2d" style="display:flex;gap:12px;align-items:stretch">
-          <div style="border:1.5px solid var(--acc);border-radius:8px;padding:9px 16px;font-family:var(--r-code-font);font-size:12px;background:#eff6ff;text-align:center;color:var(--acc);box-shadow:0 2px 8px rgba(37,99,235,.12)">WebGPURenderer.js<div style="font-size:9px;margin-top:2px;font-weight:400">GPU · 1 draw call</div></div>
+          <div style="border:1.5px solid var(--acc);border-radius:8px;padding:9px 16px;font-family:var(--r-code-font);font-size:12px;background:#eff6ff;text-align:center;color:var(--acc);box-shadow:0 2px 8px rgba(37,99,235,.12)">WebGPURenderer.js<div style="font-size:9px;margin-top:2px;font-weight:400">GPU · draw calls O(1)</div></div>
           <div style="border:1.5px dashed var(--hair);border-radius:8px;padding:9px 16px;font-family:var(--r-code-font);font-size:11px;background:var(--panel);text-align:center;color:var(--mut2)">Canvas 2D<div style="font-size:9px;margin-top:2px">fallback auto</div></div>
         </div>
         <div style="flex:1"></div>
@@ -1203,10 +1203,10 @@
         <div class="gp-step gs3">
           <div style="display:flex;align-items:baseline;gap:10px">
             <span class="mono" style="font-size:13px;color:var(--acc);font-weight:600">③</span>
-            <span style="font-size:17px;font-weight:700">Cada frame, una sola draw call</span>
+            <span style="font-size:17px;font-weight:700">Cada frame, draw calls constantes · independiente de N</span>
           </div>
           <div class="mono" style="margin-top:6px;margin-left:24px;font-size:13px;background:var(--panel);border:1px solid var(--hair);border-radius:6px;padding:7px 14px;display:inline-block">
-            pass.<span class="cok">drawIndexed</span>(totalVerts) <span class="csel" style="font-size:11px">← geometría subida 1×</span>
+            pass.<span class="cok">drawIndexed</span>(totalVerts) <span class="csel" style="font-size:11px">← ≤11 pasadas · O(1)</span>
           </div>
         </div>
       </div>
@@ -1244,7 +1244,7 @@
           <g class="gp-g gp-gpu">
             <rect x="20" y="118" width="160" height="38" rx="5" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
             <text x="100" y="134" text-anchor="middle" fill="#2563eb" font-size="9.5" font-family="'JetBrains Mono',monospace" font-weight="600">WebGPURenderer.js</text>
-            <text x="100" y="148" text-anchor="middle" fill="#2563eb" font-size="8" font-family="Inter,sans-serif">geometría 1× · 1 draw call/frame</text>
+            <text x="100" y="148" text-anchor="middle" fill="#2563eb" font-size="8" font-family="Inter,sans-serif">geometría 1× · draw calls O(1)</text>
           </g>
           <g class="gp-g gp-cv">
             <rect x="200" y="118" width="160" height="38" rx="5" fill="var(--panel)" stroke="#d1d5db" stroke-dasharray="5,3"/>
@@ -1266,7 +1266,7 @@
       </div>
     </div>
   </div></div>
-  <aside class="notes">Misma mecánica de 3 fases que las slides anteriores. ① TimeLineOverview se convierte en fachada: una sola detección al inicializar con navigator.gpu?.requestAdapter() — esa pregunta se hace una vez, no por frame. ② Si hay adapter, instancia WebGPURenderer; si no, cae a Canvas 2D automáticamente. La API es idéntica: TimeWidget.js, el cliente, no cambia ni una línea (rama azul "sí", rama gris "no"). ③ La diferencia estructural: la geometría se sube a la GPU una sola vez al inicio (writeBuffer) y cada frame es una única llamada drawIndexed() — el punto verde que recorre el diagrama es el frame. Frente a las N llamadas stroke() de la slide anterior. Resultado: 16.7 fps frente a 0.9 con N=100k. La ventaja crece con N porque no es una microoptimización: es un cambio de modelo de ejecución.</aside>
+  <aside class="notes">Misma mecánica de 3 fases que las slides anteriores. ① TimeLineOverview se convierte en fachada: una sola detección al inicializar con navigator.gpu?.requestAdapter() — esa pregunta se hace una vez, no por frame. ② Si hay adapter, instancia WebGPURenderer; si no, cae a Canvas 2D automáticamente. La API es idéntica: TimeWidget.js, el cliente, no cambia ni una línea (rama azul "sí", rama gris "no"). ③ La diferencia estructural: la geometría se sube a la GPU una sola vez al inicio (writeBuffer) y cada frame ejecuta un número constante de pasadas lógicas (≤11 drawIndexed(), independiente de N) — frente a las N llamadas stroke() de Canvas. Si preguntan por las pasadas: transparencia de grupos, selección, mediana, etc. Resultado: 16.7 fps frente a 0.9 con N=100k. La ventaja crece con N porque no es una microoptimización: es un cambio de modelo de ejecución.</aside>
 </section>
 
 <!-- ═══ 14 · OPTIMIZACIONES ═══════════════════════════════ -->
@@ -1390,7 +1390,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
       <span class="row" style="gap:6px"><span style="width:18px;height:3px;background:var(--acc);border-radius:2px"></span>WebGPU</span>
       <span class="row" style="gap:6px"><span style="width:18px;height:3px;background:#9ca3af;border-radius:2px"></span>Canvas 2D</span>
       <span class="mut2">|</span>
-      <span>fluido ≥ 45 &nbsp;·&nbsp; interactivo 17–44 &nbsp;·&nbsp; inutilizable ≤ 16</span>
+      <span>fluido ≥ 45 &nbsp;·&nbsp; visible 17–44 &nbsp;·&nbsp; inutilizable ≤ 16</span>
     </div>
     <div class="fragment" id="factor-frag" style="text-align:center;margin-top:10px">
       <span class="mut sm">factor de mejora&nbsp;&nbsp;1.04× → 2.56× → 10.02× →&nbsp;</span>
@@ -1404,7 +1404,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
 <section>
   <div class="sw"><div class="sb">
     <div class="k"><b>Resultados</b> · validación</div>
-    <h2>Hipótesis H2 y H3 verificadas — corrección funcional y usabilidad</h2>
+    <h2>Hipótesis H1 y H2 verificadas — corrección funcional y usabilidad</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:16px">
       <div>
         <div class="fragment" style="display:flex;align-items:baseline;gap:14px;margin-bottom:10px">
@@ -1481,7 +1481,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
     <div class="g2" style="gap:36px;flex:1;min-height:0;align-items:start">
       <div style="display:flex;flex-direction:column;gap:10px">
         <img src="img/help_modal.png" style="width:100%;border:1px solid var(--hair);border-radius:8px;display:block;object-fit:cover;max-height:320px">
-        <div class="figcap" style="text-align:center">Modal de ayuda · 11 secciones acordeón · ES / EN</div>
+        <div class="figcap" style="text-align:center">Modal de ayuda · 11 secciones acordeón</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <img src="img/tour_step2.png" style="width:100%;border:1px solid var(--hair);border-radius:8px;display:block;object-fit:cover;max-height:320px">
@@ -1490,10 +1490,10 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
     </div>
     <div style="margin-top:12px;display:flex;gap:14px;align-items:center;padding:10px 16px;background:rgba(37,99,235,.04);border:1px solid var(--hair);border-radius:8px">
       <span class="cok" style="font-size:18px;flex-shrink:0">✓</span>
-      <span style="font-size:14px;color:var(--ink)">Suite <strong>E2E Playwright</strong> — ejecutada en cada push en <strong>GitHub Actions</strong> (CI): botón visible, modal abre, tour avanza correctamente</span>
+      <span style="font-size:14px;color:var(--ink)">Flujo validado — botón visible, modal abre, tour avanza correctamente en los escenarios probados</span>
     </div>
   </div></div>
-  <aside class="notes">El HelpSystem surgió directamente del think-aloud: los participantes sin perfil técnico no sabían qué hacer con ε ni cómo leer la barra lógica. Se integró en el mismo PR: botón ? en la esquina superior derecha, modal con 11 secciones acordeón bilingüe (ES/EN), tour interactivo con spotlight de 7 pasos. La suite E2E Playwright corre en GitHub Actions en cada push y verifica que el flujo completo funciona.</aside>
+  <aside class="notes">El HelpSystem surgió directamente del think-aloud: los participantes sin perfil técnico no sabían qué hacer con ε ni cómo leer la barra lógica. Se integró en el mismo PR: botón ? en la esquina superior derecha, modal con 11 secciones acordeón, tour interactivo con spotlight de 7 pasos. Si preguntan por el bilingüismo o el CI/Playwright, matizar que es trabajo adicional realizado pero fuera del alcance formal de la memoria.</aside>
 </section>
 
 <!-- ═══ 17 · CONCLUSIONES ════════════════════════════════════ -->
@@ -1543,8 +1543,8 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
     <div style="margin-top:26px;display:flex;gap:16px;padding-top:22px;border-top:2px solid var(--hair)">
       <div style="flex:1;text-align:center;padding:13px 8px;background:rgba(5,150,105,.05);border:1.5px solid rgba(5,150,105,.25);border-radius:10px">
         <div class="mono" style="font-size:10px;letter-spacing:.15em;color:#059669;margin-bottom:5px">H1 ✓</div>
-        <div style="font-size:13px;font-weight:600;color:var(--ink)">Tiempo real hasta 100k series</div>
-        <div class="mut xs" style="margin-top:3px">16.7 fps · WebGPU</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink)">Filtrado en tiempo real</div>
+        <div class="mut xs" style="margin-top:3px">sliders, ε y throttle dinámico</div>
       </div>
       <div style="flex:1;text-align:center;padding:13px 8px;background:rgba(5,150,105,.05);border:1.5px solid rgba(5,150,105,.25);border-radius:10px">
         <div class="mono" style="font-size:10px;letter-spacing:.15em;color:#059669;margin-bottom:5px">H2 ✓</div>
@@ -1704,7 +1704,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
         </div>
         <div class="li">
           <div class="t">Solución: cambiar de modelo</div>
-          <div class="d">WebGPU sube la geometría completa una sola vez y aplica estilos por serie mediante un buffer en GPU. Un único draw call — sin N sincronizaciones.</div>
+          <div class="d">WebGPU sube la geometría completa una sola vez. Cada frame ejecuta un número constante de pasadas lógicas (≤11, independiente de N). El contraste real: N draw calls lineales en Canvas frente a O(1) en WebGPU.</div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
@@ -1719,13 +1719,13 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
           <div style="color:#14532d;font-weight:700;margin-bottom:6px">WebGPU — N=100 000</div>
           <div style="color:#374151">uploadGeometry(allSeries) <span style="color:#9ca3af;font-size:11px">// 1× al inicio</span></div>
           <div style="color:#374151">styleBuffer.update(colors) <span style="color:#9ca3af;font-size:11px">// GPU buffer</span></div>
-          <div style="color:#374151">device.<span class="cok">draw</span>() <span style="color:#059669;font-size:11px">← 1 drawcall total</span></div>
+          <div style="color:#374151">device.<span class="cok">draw</span>() <span style="color:#059669;font-size:11px">← ≤11 draws · O(1)</span></div>
         </div>
         <div class="figcap" style="text-align:center">16.7 fps (WebGPU) vs 0.9 fps (Canvas 2D) · N=100 000</div>
       </div>
     </div>
   </div></div>
-  <aside class="notes">Respuesta a la pregunta del tribunal sobre reducir los stroke(). Canvas sí usa GPU para rasterizar — lo incorrecto sería decir que la GPU está ociosa. El verdadero cuello es que cada ctx.stroke() es un drawcall independiente al driver con sincronización CPU→GPU. Con N=100k → 100k sincronizaciones. Path2D puede agrupar geometrías pero necesita el mismo strokeStyle para todo el batch; imposible con selección por color/opacidad por serie. OffscreenCanvas desbloquea el hilo UI pero no elimina los N drawcalls. LOD reduce puntos pero no drawcalls. WebGPU cambia el modelo: geometría subida una vez, estilos en buffer GPU, un único draw call. Por eso el factor de mejora crece con N: 1.04× a N=500, 19.18× a N=100k.</aside>
+  <aside class="notes">Respuesta a la pregunta del tribunal sobre reducir los stroke(). Canvas sí usa GPU para rasterizar — lo incorrecto sería decir que la GPU está ociosa. El verdadero cuello es que cada ctx.stroke() es un drawcall independiente al driver con sincronización CPU→GPU. Con N=100k → 100k sincronizaciones. Path2D puede agrupar geometrías pero necesita el mismo strokeStyle para todo el batch; imposible con selección por color/opacidad por serie. OffscreenCanvas desbloquea el hilo UI pero no elimina los N drawcalls. LOD reduce puntos pero no drawcalls. WebGPU cambia el modelo: geometría subida una vez, estilos en buffer GPU, draw calls constantes (≤11 pasadas lógicas, independiente de N). Si preguntan cuántas pasadas: una por tipo de primitiva/transparencia según la selección activa. Por eso el factor de mejora crece con N: 1.04× a N=500, 19.18× a N=100k.</aside>
 </section>
 
 </div>
@@ -1979,7 +1979,7 @@ const zoneBands = {
     ctx.textAlign = 'right';
     ctx.fillText('fluido ≥ 45 fps', a.right - 8, yf - 7);
     ctx.restore();
-    // línea de referencia: umbral interactivo 17 fps
+    // línea de referencia: umbral Visible 17 fps
     const yv = y.getPixelForValue(17);
     ctx.save();
     ctx.strokeStyle = 'rgba(217,119,6,.5)';
@@ -1992,7 +1992,7 @@ const zoneBands = {
     ctx.fillStyle = '#d97706';
     ctx.font = "600 10px 'Inter',sans-serif";
     ctx.textAlign = 'right';
-    ctx.fillText('interactivo ≥ 17 fps', a.right - 8, yv - 6);
+    ctx.fillText('visible ≥ 17 fps', a.right - 8, yv - 6);
     ctx.restore();
   }
 };
