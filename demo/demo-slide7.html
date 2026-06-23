@@ -58,6 +58,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="TimeWidget.demo.js"></script>
 <script>
+window.onerror = (msg, src, line) => {
+  document.getElementById('phase-badge').textContent = '⚠ Error JS: ' + msg + ' (línea ' + line + ')';
+  document.getElementById('phase-badge').style.background = 'rgba(180,0,0,.9)';
+};
+</script>
+<script>
 /* ══════════════════════════════════════════════════════
    DATOS — 18 neonatos, perímetro craneal (cm), semanas 40-90
    ====================================================== */
@@ -117,7 +123,7 @@ const widget = TimeWidget(data, {
   x: d => d.x,
   y: d => d.y,
   id: d => d.id,
-  renderer: 'webgpu',
+  renderer: 'canvas',
   width:  w,
   height: h - 34,            // dejar espacio al badge
   margin: { left:46, top:22, bottom:38, right:12 },
@@ -131,6 +137,8 @@ const widget = TimeWidget(data, {
   showGrid: true,
   autoUpdate: true,
   showHelp: false,
+  showBrushesControls: false,
+  showBrushesCoordinates: false,
   brushesColorScale: d3.scaleOrdinal(['#2563eb','#dc2626','#d97706']),
 });
 
@@ -286,11 +294,8 @@ function applyPhase(p) {
   if (showPanel && PANEL_CONTENT[panelKey]) panel.innerHTML = PANEL_CONTENT[panelKey];
   dots.forEach((d, i) => d.classList.toggle('on', i === phase));
 
-  if (filters.length === 0) {
-    const groups = ts.getBrushesGroup();
-    groups.clear();
-    try { ts.recomputeSelection?.(); } catch(e) {}
-  } else {
+  ts.resetAllFilters?.();
+  if (filters.length > 0) {
     ts.addFilters(filters, true);
     if (setup) setup();
   }

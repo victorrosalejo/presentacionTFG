@@ -1121,7 +1121,7 @@
         <div class="cv-step cs3">
           <div style="display:flex;align-items:baseline;gap:10px">
             <span class="mono" style="font-size:13px;color:var(--sel);font-weight:600">③</span>
-            <span style="font-size:17px;font-weight:700">N drawcalls → N sincronizaciones CPU↔GPU</span>
+            <span style="font-size:17px;font-weight:700">N drawcalls → N sincronizaciones CPU&GPU</span>
           </div>
           <div class="sm mut" style="margin-top:4px;padding-left:24px">Canvas sí usa GPU para rasterizar — el cuello es 1&nbsp;<code>stroke()</code> por serie: imposible batchear con colores distintos</div>
         </div>
@@ -1172,7 +1172,7 @@
       </div>
     </div>
   </div></div>
-  <aside class="notes">Bucle de 3 fases. ① El nativo dibuja con Canvas 2D: un for sobre las N series y una llamada ctx.stroke() por serie — cada bloque rojo del timeline es un stroke. ② Esos bloques son secuenciales en un solo core: con N grande el frame rebasa el presupuesto de 16.6 ms (línea roja). ③ Importante matiz: Canvas 2D sí usa la GPU para rasterizar — el procesador gráfico sí trabaja. El verdadero cuello son los N drawcalls independientes: cada ctx.stroke() es una llamada separada al driver con sincronización CPU↔GPU. No se pueden agrupar con Path2D si cada serie necesita su propio color u opacidad. Números (Intel UHD): 70.9 fps N=1k, 16.2 N=5k — inutilizable —, 0.9 N=100k. La degradación es lineal porque el modelo es inherentemente secuencial; hay que cambiar de modelo, no optimizarlo.</aside>
+  <aside class="notes">Bucle de 3 fases. ① El nativo dibuja con Canvas 2D: un for sobre las N series y una llamada ctx.stroke() por serie — cada bloque rojo del timeline es un stroke. ② Esos bloques son secuenciales en un solo core: con N grande el frame rebasa el presupuesto de 16.6 ms (línea roja). ③ Importante matiz: Canvas 2D sí usa la GPU para rasterizar — el procesador gráfico sí trabaja. El verdadero cuello son los N drawcalls independientes: cada ctx.stroke() es una llamada separada al driver con sincronización CPU&GPU. No se pueden agrupar con Path2D si cada serie necesita su propio color u opacidad. Números (Intel UHD): 70.9 fps N=1k, 16.2 N=5k — inutilizable —, 0.9 N=100k. La degradación es lineal porque el modelo es inherentemente secuencial; hay que cambiar de modelo, no optimizarlo.</aside>
 </section>
 
 <!-- ═══ 13 · WEBGPU — LA MIGRACIÓN ═══════════════════════ -->
@@ -1387,17 +1387,18 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
     <h2>La ventaja crece con los datos</h2>
     <div id="fps-wrap" style="margin-top:4px"><canvas id="fps-chart"></canvas></div>
     <div style="display:flex;gap:22px;margin-top:8px;font-size:12px;justify-content:center;align-items:center;color:var(--mut)">
-      <span class="row" style="gap:6px"><span style="width:18px;height:3px;background:var(--acc);border-radius:2px"></span>WebGPU</span>
+      <span class="row" style="gap:6px"><span style="width:18px;height:3px;background:var(--acc);border-radius:2px"></span>WebGPU + LOD</span>
+      <span class="row" style="gap:6px"><span style="width:18px;height:0;border-top:2px dashed #60a5fa;display:inline-block"></span>WebGPU sin LOD</span>
       <span class="row" style="gap:6px"><span style="width:18px;height:3px;background:#9ca3af;border-radius:2px"></span>Canvas 2D</span>
       <span class="mut2">|</span>
       <span>fluido ≥ 45 &nbsp;·&nbsp; visible 17–44 &nbsp;·&nbsp; inutilizable ≤ 16</span>
     </div>
     <div class="fragment" id="factor-frag" style="text-align:center;margin-top:10px">
-      <span class="mut sm">factor de mejora&nbsp;&nbsp;1.04× → 2.56× → 10.02× →&nbsp;</span>
-      <span id="factor-counter" class="num cacc" style="font-size:40px">19.18×</span>
+      <span class="mut sm">factor de mejora&nbsp;&nbsp;1.00× → 1.40× → 2.98× →&nbsp;</span>
+      <span id="factor-counter" class="num cacc" style="font-size:40px">8.18×</span>
     </div>
   </div></div>
-  <aside class="notes">FPS mediano, 60 frames + 30 warm-up, Intel UHD integrada (escenario conservador). Equivalentes hasta 1k; divergencia en 5k (Canvas 16.2 inutilizable, WebGPU 41.5 visible); a 100k: 0.9 vs 16.7 — WebGPU nunca sale de zona visible. El factor crece con N → H3 confirmada.</aside>
+  <aside class="notes">FPS mediano, Intel UHD integrada (escenario conservador). Equivalentes hasta ~1k. Ventaja de WebGPU desde 5k (Canvas 20 fps Visible, WebGPU 60 fps Fluido). Canvas cruza Inutilizable en 10k (10 fps). Sin LOD: a 100k WebGPU cae a 9.2 fps (Inutilizable) igual que Canvas (1.0 fps). Con LOD: WebGPU 17.1 fps (Visible), Canvas 2.1 fps (Inutilizable). El LOD es lo que cruza el umbral de usabilidad. Factor crece 1.00× → 8.18× → H3 confirmada.</aside>
 </section>
 
 <!-- ═══ 16 · VALIDACIÓN ═══════════════════════════════════ -->
@@ -1534,7 +1535,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
           </div>
           <div style="display:flex;gap:10px;align-items:baseline">
             <span class="cok" style="font-size:15px;flex-shrink:0">✓</span>
-            <span style="font-size:14px">WebGPU — 16.7 fps a 100 000 series · factor 19.18× creciente</span>
+            <span style="font-size:14px">WebGPU + LOD — 17.1 fps a 100 000 series · factor ~8× creciente con N</span>
           </div>
         </div>
       </div>
@@ -1554,7 +1555,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
       <div style="flex:1;text-align:center;padding:13px 8px;background:rgba(5,150,105,.05);border:1.5px solid rgba(5,150,105,.25);border-radius:10px">
         <div class="mono" style="font-size:10px;letter-spacing:.15em;color:#059669;margin-bottom:5px">H3 ✓</div>
         <div style="font-size:13px;font-weight:600;color:var(--ink)">Mejora creciente con N</div>
-        <div class="mut xs" style="margin-top:3px">1.04× → 19.18×</div>
+        <div class="mut xs" style="margin-top:3px">1.00× → 8.18×</div>
       </div>
     </div>
     <div style="margin-top:16px;text-align:center;font-size:15px;font-weight:600;color:var(--acc)">TimeWidget es ahora un motor de búsqueda visual de patrones.</div>
@@ -1696,7 +1697,7 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
         </div>
         <div class="li">
           <div class="t"><span class="csel">✕</span>&ensp;El cuello: N drawcalls independientes desde CPU</div>
-          <div class="d">Con N series → N llamadas al driver GPU. Cada una implica un flush de comandos y sincronización CPU↔GPU. El overhead crece linealmente con N.</div>
+          <div class="d">Con N series → N llamadas al driver GPU. Cada una implica un flush de comandos y sincronización CPU&GPU. El overhead crece linealmente con N.</div>
         </div>
         <div class="li">
           <div class="t">¿Por qué no batchear con Path2D?</div>
@@ -2006,8 +2007,9 @@ function buildFpsChart(){
     data:{
       labels:['500','1k','5k','10k','50k','100k'],
       datasets:[
-        {label:'WebGPU',    data:[117.6,114.9,41.5,23.9,17.5,16.7], borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.04)', borderWidth:2.5, pointBackgroundColor:'#2563eb', pointRadius:4.5, fill:true, tension:.3},
-        {label:'Canvas 2D', data:[113.6,70.9,16.2,8.5,1.7,0.9],    borderColor:'#9ca3af', backgroundColor:'rgba(156,163,175,.04)', borderWidth:2, pointBackgroundColor:'#9ca3af', pointRadius:4, fill:true, tension:.3},
+        {label:'WebGPU + LOD', data:[120.5,120.5,59.9,30.0,17.1,17.1], borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.04)', borderWidth:2.5, pointBackgroundColor:'#2563eb', pointRadius:4.5, fill:true, tension:.3},
+        {label:'WebGPU sin LOD', data:[120.5,120.5,59.9,30.0,17.9,9.2], borderColor:'#60a5fa', backgroundColor:'rgba(96,165,250,.01)', borderWidth:1.8, borderDash:[6,4], pointBackgroundColor:'#60a5fa', pointRadius:3.5, fill:false, tension:.3},
+        {label:'Canvas 2D', data:[120.5,86.2,20.1,10.2,2.1,2.1],    borderColor:'#9ca3af', backgroundColor:'rgba(156,163,175,.04)', borderWidth:2, pointBackgroundColor:'#9ca3af', pointRadius:4, fill:true, tension:.3},
       ],
     },
     options:{
@@ -2028,12 +2030,12 @@ function animateSUSBars(){
   document.querySelectorAll('.sus-fill').forEach(el => { el.style.width = parseFloat(el.dataset.target) + '%'; });
 }
 
-/* ── Contador 19.18× ───────────────────────────────────── */
+/* ── Contador 8.18× ────────────────────────────────────── */
 function countUpFactor(){
   const el = document.getElementById('factor-counter');
   if (!el || el.dataset.done) return;
   el.dataset.done = '1';
-  const target = 19.18, dur = 1400, t0 = performance.now();
+  const target = 8.18, dur = 1400, t0 = performance.now();
   (function tick(now){
     const p = Math.min((now - t0) / dur, 1);
     const eased = 1 - Math.pow(1 - p, 3);

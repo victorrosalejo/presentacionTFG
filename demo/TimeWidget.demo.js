@@ -9363,6 +9363,29 @@ ts.printSliders = function () {
   ts.recomputeSelection = () => {
     brushes.recomputeSelection();
   };
+
+  ts.addFilters = (filters, wipeAll = false) => {
+    brushes.addFilters(filters, wipeAll);
+  };
+
+  ts.drawBrushes = () => {
+    brushes.drawBrushes();
+  };
+
+  ts.resetAllFilters = () => {
+    sliders.clear();
+    if (Array.isArray(referenceCurves)) {
+      referenceCurves.forEach(curve => {
+        if (curve.isSimplePoints && Array.isArray(curve.associations)) {
+          curve.associations = [];
+        }
+      });
+    }
+    brushes.getBrushesGroup().clear();
+    brushes.drawBrushes();
+    brushes.recomputeSelection();
+  };
+
     const throttledRecompute = throttle(calculatedDelay, () => {
         brushes.recomputeSelection();
     });
