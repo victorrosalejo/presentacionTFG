@@ -1,0 +1,27 @@
+{
+  "_slides": {
+    "1":  "Portada",
+    "2":  "Índice",
+    "3":  "Contexto y motivación  (id: sl-ctx)",
+    "4":  "Punto de partida — cinco frentes (backup, oculta)",
+    "5":  "Punto de partida y objetivo",
+    "6":  "Metodología",
+    "7":  "Contribución 1 — Curvas de referencia  (id: sl5)",
+    "8":  "Contribución 1 — Herramientas + lógica booleana  (id: sl6)",
+    "9":  "Arquitectura inicial",
+    "10": "Arquitectura evolucionada",
+    "11": "Contribución 2 — BVH fase amplia  (id: sl-bvh)",
+    "12": "Contribución 2 — BVH fase estrecha  (id: sl-fn)",
+    "13": "Contribución 3 — Canvas 2D  (id: sl-cv)",
+    "14": "Contribución 3 — WebGPU migración  (id: sl-gpu1)",
+    "15": "Contribución 3 — Optimizaciones WebGPU  (id: sl-gpu2)",
+    "16": "Demo en vivo  (id: sl-demo, backup, oculta)",
+    "17": "Resultados — rendimiento",
+    "18": "Resultados — validación funcional y usabilidad",
+    "19": "Sistema de ayuda integrado",
+    "20": "Conclusiones",
+    "21": "Líneas futuras",
+    "22": "Cierre"
+  },
+  "hidden": [4, "sl-demo"]
+}

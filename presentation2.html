@@ -163,11 +163,29 @@
     .anim-btn:hover{color:var(--acc);border-color:var(--acc);}
     .anim-btn.wide{padding:4px 20px;}
 
-    /* ── Slide 5: activación de curva de referencia ── */
-    #sl5-svg .sl5-corridor,.sl5-curve-active,.sl5-after,.sl5-sel-label,.sl5-eps-circle{opacity:0;transition:opacity .85s ease;}
-    #sl5-svg .sl5-above{stroke:#d1d5db;transition:stroke .9s ease;}
-    #sl5.sl5-active .sl5-corridor,#sl5.sl5-active .sl5-curve-active,#sl5.sl5-active .sl5-after{opacity:1;}
-    #sl5.sl5-active .sl5-above{stroke:#dc2626;}
+    /* ── Slide 5: curva decorativa → filtro activo (3 fragmentos) ── */
+    #sl5-ref-curve{transition:stroke .7s ease,stroke-width .4s ease;}
+    #sl5.sl5-f1 #sl5-ref-curve,#sl5.sl5-f2 #sl5-ref-curve,#sl5.sl5-f3 #sl5-ref-curve{stroke:#2563eb;stroke-dasharray:none;stroke-width:2.4;}
+    #sl5-curve-label{transition:fill .7s ease;}
+    #sl5.sl5-f1 #sl5-curve-label,#sl5.sl5-f2 #sl5-curve-label,#sl5.sl5-f3 #sl5-curve-label{fill:#2563eb;}
+    #sl5-zone-fill{opacity:0;transition:opacity .8s ease;}
+    #sl5.sl5-f1 #sl5-zone-fill,#sl5.sl5-f2 #sl5-zone-fill,#sl5.sl5-f3 #sl5-zone-fill{opacity:1;}
+    .sl5-at-risk{stroke:#e5e7eb;transition:stroke .9s ease;}
+    #sl5.sl5-f2 .sl5-at-risk,#sl5.sl5-f3 .sl5-at-risk{stroke:#dc2626;}
+    .sl5-normal{transition:stroke .6s ease,opacity .6s ease;}
+    #sl5.sl5-f2 .sl5-normal,#sl5.sl5-f3 .sl5-normal{opacity:.55;}
+    #sl5-count{opacity:0;transition:opacity .6s ease .15s;}
+    #sl5.sl5-f2 #sl5-count,#sl5.sl5-f3 #sl5-count{opacity:1;}
+    #sl5-label-before,#sl5-label-after,#sl5-before-row,#sl5-after-row,#sl5-x-mark,#sl5-check-mark{transition:opacity .5s ease;}
+    #sl5-label-after,#sl5-after-row,#sl5-check-mark{opacity:0;}
+    #sl5.sl5-f1 #sl5-label-before,#sl5.sl5-f2 #sl5-label-before,#sl5.sl5-f3 #sl5-label-before{opacity:0;}
+    #sl5.sl5-f1 #sl5-label-after,#sl5.sl5-f2 #sl5-label-after,#sl5.sl5-f3 #sl5-label-after{opacity:1;}
+    #sl5.sl5-f1 #sl5-before-row,#sl5.sl5-f2 #sl5-before-row,#sl5.sl5-f3 #sl5-before-row{opacity:.35;}
+    #sl5.sl5-f1 #sl5-after-row,#sl5.sl5-f2 #sl5-after-row,#sl5.sl5-f3 #sl5-after-row{opacity:1;}
+    #sl5.sl5-f1 #sl5-x-mark,#sl5.sl5-f2 #sl5-x-mark,#sl5.sl5-f3 #sl5-x-mark{opacity:0;}
+    #sl5.sl5-f1 #sl5-check-mark,#sl5.sl5-f2 #sl5-check-mark,#sl5.sl5-f3 #sl5-check-mark{opacity:1;}
+    #sl5-tags{opacity:0;transition:opacity .6s ease;}
+    #sl5.sl5-f3 #sl5-tags{opacity:1;}
 
     /* ── Slide 6: capas SVG — slider activa al entrar, ε con fragmento 1 ── */
     #sl6-svg .s6-layer-a,#sl6-svg .s6-layer-b{opacity:0;transition:opacity .7s ease;}
@@ -323,20 +341,20 @@
           <line x1="40" y1="126.3" x2="310" y2="126.3" stroke="#9ca3af" stroke-width="1" stroke-dasharray="5,4" opacity=".6"/>
           <text class="fade-late2" x="308" y="122" text-anchor="end" fill="#9ca3af" font-size="7.5" font-family="Inter,sans-serif">fluido ≥ 45 fps</text>
           <!-- barras: FPS medianos del benchmark (memoria, tabla 4.x) -->
-          <rect class="pbar b1" x="48.5"  y="29.1"  width="28" height="160.9" rx="2" fill="#9ca3af" opacity=".75"/>
-          <rect class="pbar b2" x="93.5"  y="89.6"  width="28" height="100.4" rx="2" fill="#9ca3af" opacity=".75"/>
-          <rect class="pbar b3" x="138.5" y="167"   width="28" height="23"    rx="2" fill="#dc2626" opacity=".8"/>
-          <rect class="pbar b4" x="183.5" y="178"   width="28" height="12"    rx="2" fill="#dc2626" opacity=".8"/>
-          <rect class="pbar b5" x="228.5" y="187.6" width="28" height="2.4"   rx="1" fill="#dc2626" opacity=".8"/>
-          <rect class="pbar b6" x="273.5" y="188.7" width="28" height="1.3"   rx="1" fill="#dc2626" opacity=".8"/>
-          <!-- valores -->
+          <rect class="pbar b1" x="48.5"  y="19.4"  width="28" height="170.6" rx="2" fill="#9ca3af" opacity=".75"/>
+          <rect class="pbar b2" x="93.5"  y="62.5"  width="28" height="127.5" rx="2" fill="#9ca3af" opacity=".75"/>
+          <rect class="pbar b3" x="138.5" y="161.4" width="28" height="28.6"  rx="2" fill="#9ca3af" opacity=".75"/>
+          <rect class="pbar b4" x="183.5" y="175.7" width="28" height="14.3"  rx="2" fill="#dc2626" opacity=".8"/>
+          <rect class="pbar b5" x="228.5" y="187.0" width="28" height="3.0"   rx="1" fill="#dc2626" opacity=".8"/>
+          <rect class="pbar b6" x="273.5" y="188.6" width="28" height="1.4"   rx="1" fill="#dc2626" opacity=".8"/>
+          <!-- valores (Intel UHD, sin LOD) -->
           <g class="fade-late2" font-family="'JetBrains Mono',monospace" font-size="7.5">
-            <text x="62.5"  y="24"  text-anchor="middle" fill="#6b7280">113.6</text>
-            <text x="107.5" y="84.6" text-anchor="middle" fill="#6b7280">70.9</text>
-            <text x="152.5" y="162" text-anchor="middle" fill="#dc2626">16.2</text>
-            <text x="197.5" y="173" text-anchor="middle" fill="#dc2626">8.5</text>
-            <text x="242.5" y="182.6" text-anchor="middle" fill="#dc2626">1.7</text>
-            <text x="287.5" y="183.7" text-anchor="middle" fill="#dc2626">0.9</text>
+            <text x="62.5"  y="14"  text-anchor="middle" fill="#6b7280">120.5</text>
+            <text x="107.5" y="57" text-anchor="middle" fill="#6b7280">90.1</text>
+            <text x="152.5" y="156" text-anchor="middle" fill="#6b7280">20.2</text>
+            <text x="197.5" y="170.7" text-anchor="middle" fill="#dc2626">10.1</text>
+            <text x="242.5" y="182" text-anchor="middle" fill="#dc2626">2.1</text>
+            <text x="287.5" y="183.6" text-anchor="middle" fill="#dc2626">1.0</text>
           </g>
           <!-- eje X -->
           <g font-family="'JetBrains Mono',monospace" font-size="7.5" fill="#9ca3af">
@@ -349,11 +367,11 @@
           </g>
           <text x="175" y="214" text-anchor="middle" fill="#9ca3af" font-size="8" font-family="Inter,sans-serif">número de series</text>
         </svg>
-        <div class="figcap fade-late2"><span class="csel">✕</span>&nbsp; A partir de 5 000 series el motor Canvas 2D cae a <strong class="csel">16 fps</strong>: <strong style="color:var(--ink)">la exploración interactiva deja de ser viable</strong></div>
+        <div class="figcap fade-late2"><span class="csel">✕</span>&nbsp; A partir de 10 000 series el motor Canvas 2D cae a <strong class="csel">10 fps</strong>: <strong style="color:var(--ink)">la exploración interactiva deja de ser viable</strong></div>
       </div>
     </div>
   </div></div>
-  <aside class="notes">Gancho: ¿cómo encuentra un clínico a los bebés en riesgo entre cientos de curvas? Panel 1 — expresividad: las curvas OMS reales (P50, ±2SD) del ejemplo canguro.html se dibujan, pero los dos pacientes bajo −2SD son tan grises como los demás: el sistema no puede seleccionarlos. Panel 2 — rendimiento: FPS medianos reales del benchmark; Canvas 2D cruza el umbral de inutilizabilidad en N=5.000 (16.2 fps) y muere a 0.9 fps con 100k. Estas dos carencias son exactamente las dos dimensiones del objetivo: expresividad y rendimiento.</aside>
+  <aside class="notes">Gancho: ¿cómo encuentra un clínico a los bebés en riesgo entre cientos de curvas? Panel 1 — expresividad: las curvas OMS reales (P50, ±2SD) del ejemplo canguro.html se dibujan, pero los dos pacientes bajo −2SD son tan grises como los demás: el sistema no puede seleccionarlos. Panel 2 — rendimiento: FPS medianos reales del benchmark (sin LOD); Canvas 2D cruza el umbral de inutilizabilidad en N=10.000 (10.1 fps) y muere a 1.0 fps con 100k. Estas dos carencias son exactamente las dos dimensiones del objetivo: expresividad y rendimiento.</aside>
 </section>
 
 <!-- ═══ 3 · PUNTO DE PARTIDA · CINCO FRENTES ══════════════ -->
@@ -434,201 +452,255 @@
   <aside class="notes">OE1 fue el análisis del sistema nativo; de ahí salen estos cinco frentes = objetivos OE2–OE6 de la memoria. En cada uno, reconocer lo que el nativo ofrecía y qué aporta el TFG. Si preguntan por la magnitud del cambio: WebGPURenderer.js es un módulo nuevo de 43 KB, el BVH se multiplicó por 2.2 y BrushInteraction por 1.6 — el src pasó de ~117 a ~250 KB. OE7 (validación) cierra la presentación.</aside>
 </section>
 
-<!-- ═══ 4 · OBJETIVO + METODOLOGÍA ════════════════════════ -->
+<!-- ═══ 4 · OBJETIVO + PUNTO DE PARTIDA ════════════════════ -->
 <section>
-  <div class="sw"><div class="sb" style="justify-content:center">
-    <div class="k"><b>Objetivo</b></div>
-    <div style="font-size:27px;font-weight:700;line-height:1.35;letter-spacing:-.02em;max-width:960px">
-      TimeWidget ya buscaba patrones con TimeBoxes.<br>
-      El objetivo: convertirlo en un motor de búsqueda visual
-      <span class="cacc">más expresivo</span> y <span class="cacc">a otra escala</span>.
-    </div>
-    <div class="fragment" style="display:flex;gap:56px;margin-top:36px">
-      <div style="display:flex;gap:16px;align-items:flex-start;max-width:400px">
-        <svg viewBox="0 0 24 24" style="width:34px;height:34px;flex-shrink:0;stroke:var(--acc);fill:none;stroke-width:1.7;stroke-linecap:round" aria-hidden="true">
-          <circle cx="10.5" cy="10.5" r="6.2"/><line x1="15.2" y1="15.2" x2="20.5" y2="20.5"/>
-          <polyline points="7.5,11.5 9.5,9.5 11,11 13.5,8.5" stroke-width="1.4"/>
-        </svg>
-        <div>
-          <div style="font-size:18px;font-weight:700">Expresividad</div>
-          <div class="mut sm" style="margin-top:3px">Preguntas que antes no podían formularse: filtrar por curvas clínicas, proximidad ε, lógica completa</div>
+  <div class="sw"><div class="sb">
+    <div class="k"><b>Objetivo</b> · punto de partida</div>
+    <h2>De visualizador a motor de búsqueda visual</h2>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:28px;margin-top:22px;align-items:start">
+
+      <!-- NATIVO -->
+      <div style="border-left:3px solid var(--hair);padding:14px 20px 14px">
+        <div class="mono xs mut2" style="letter-spacing:.15em;margin-bottom:12px">PUNTO DE PARTIDA</div>
+        <div style="line-height:1.9;font-size:15px;color:var(--mut)">
+          ✓ TimeBoxes · Intersect / Contains<br>
+          ✓ Grupos AND / OR entre filtros<br>
+          ✓ NOT sobre TimeBoxes<br>
+          ✓ Curvas de referencia <span class="mut2">(solo visuales)</span>
+        </div>
+        <div style="margin-top:14px">
+          <span class="tag gray" style="font-size:11px">Canvas 2D · techo práctico N ≈ 5 000</span>
         </div>
       </div>
-      <div style="border-left:1px solid var(--hair)"></div>
-      <div style="display:flex;gap:16px;align-items:flex-start;max-width:400px">
-        <svg viewBox="0 0 24 24" style="width:34px;height:34px;flex-shrink:0;stroke:var(--acc);fill:none;stroke-width:1.7;stroke-linecap:round" aria-hidden="true">
-          <path d="M4 17a8.5 8.5 0 0 1 16 0"/><line x1="12" y1="17" x2="16.5" y2="11.5"/>
-          <line x1="3" y1="20" x2="21" y2="20"/>
+
+      <!-- Flecha central -->
+      <div style="display:flex;align-items:center;padding-top:52px">
+        <svg viewBox="0 0 52 24" width="52" height="24">
+          <line x1="2" y1="12" x2="40" y2="12" stroke="#cbd5e1" stroke-width="2"/>
+          <polygon points="36,5 52,12 36,19" fill="#cbd5e1"/>
         </svg>
-        <div>
-          <div style="font-size:18px;font-weight:700">Rendimiento</div>
-          <div class="mut sm" style="margin-top:3px">De un techo práctico de 5 000 series a exploración fluida con 100 000</div>
+      </div>
+
+      <!-- TFG -->
+      <div style="border-left:3px solid var(--acc);padding:14px 20px 14px;background:linear-gradient(90deg,rgba(239,246,255,.6) 0%,transparent 100%);border-radius:0 8px 8px 0">
+        <div class="mono xs cacc" style="letter-spacing:.15em;margin-bottom:12px">APORTACIÓN TFG</div>
+        <div style="line-height:1.9;font-size:15px">
+          <span class="cacc" style="font-weight:700">+</span> Curvas como <strong>filtro activo</strong> <span class="xs mut2">(func · threshold · points)</span><br>
+          <span class="cacc" style="font-weight:700">+</span> Sliders de corredor <strong>above / below</strong><br>
+          <span class="cacc" style="font-weight:700">+</span> Tolerancia <strong>ε</strong> ajustable en tiempo real<br>
+          <span class="cacc" style="font-weight:700">+</span> AND / OR / NOT sobre <em>todos</em> los filtros
+        </div>
+        <div style="margin-top:14px">
+          <span class="tag" style="font-size:11px">WebGPU + LOD · fluido hasta N = 100 000</span>
         </div>
       </div>
     </div>
-    <div style="margin-top:26px">
-      <div class="k" style="margin-bottom:4px">Metodología — modelo iterativo e incremental</div>
-      <svg viewBox="0 -44 1000 206" style="width:100%;max-width:1060px">
-        <defs>
-          <marker id="m-arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-            <path d="M0,0 L8,4 L0,8 z" fill="#cbd5e1"/>
-          </marker>
-          <marker id="m-arr-acc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-            <path d="M0,0 L8,4 L0,8 z" fill="#93c5fd"/>
-          </marker>
-        </defs>
 
-        <!-- FASE 1 · Análisis -->
-        <g class="fragment">
-          <circle cx="110" cy="50" r="30" fill="var(--panel)" stroke="#d1d5db" stroke-width="1.5"/>
-          <g transform="translate(98,38)" stroke="#6b7280" fill="none" stroke-width="1.8" stroke-linecap="round">
-            <circle cx="10" cy="10" r="7"/><line x1="15.5" y1="15.5" x2="22" y2="22"/>
-          </g>
-          <text x="110" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#111827" font-family="Inter,sans-serif">Análisis</text>
-          <text x="110" y="122" text-anchor="middle" font-size="10.5" fill="#9ca3af" font-family="'JetBrains Mono',monospace">FASE 1 · OE1</text>
-          <text x="110" y="140" text-anchor="middle" font-size="11" fill="#6b7280" font-family="Inter,sans-serif">límites del nativo</text>
-        </g>
-
-        <!-- flecha 1→2 -->
-        <g class="fragment">
-          <line x1="152" y1="50" x2="318" y2="50" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#m-arr)"/>
-          <!-- FASE 2 · Extensión -->
-          <circle cx="370" cy="50" r="30" fill="#eff6ff" stroke="var(--acc)" stroke-width="1.8"/>
-          <g transform="translate(358,40)" stroke="#2563eb" fill="none" stroke-width="1.8" stroke-linecap="round">
-            <line x1="0" y1="4" x2="24" y2="4"/><circle cx="16" cy="4" r="3.2" fill="#eff6ff"/>
-            <line x1="0" y1="16" x2="24" y2="16"/><circle cx="7" cy="16" r="3.2" fill="#eff6ff"/>
-          </g>
-          <text x="370" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#2563eb" font-family="Inter,sans-serif">Extensión funcional</text>
-          <text x="370" y="122" text-anchor="middle" font-size="10.5" fill="#2563eb" opacity=".7" font-family="'JetBrains Mono',monospace">FASE 2 · OE2–4 · OE6</text>
-          <text x="370" y="140" text-anchor="middle" font-size="11" fill="#6b7280" font-family="Inter,sans-serif">curvas · sliders · ε · lógica</text>
-        </g>
-
-        <!-- flecha 2→3 -->
-        <g class="fragment">
-          <line x1="412" y1="50" x2="578" y2="50" stroke="#93c5fd" stroke-width="1.5" marker-end="url(#m-arr-acc)"/>
-          <!-- FASE 3 · GPU -->
-          <circle cx="630" cy="50" r="30" fill="#eff6ff" stroke="var(--acc)" stroke-width="1.8"/>
-          <g transform="translate(618,38)" stroke="#2563eb" fill="none" stroke-width="1.7" stroke-linecap="round">
-            <rect x="4" y="4" width="16" height="16" rx="2.5"/>
-            <line x1="8" y1="4" x2="8" y2="0"/><line x1="16" y1="4" x2="16" y2="0"/>
-            <line x1="8" y1="24" x2="8" y2="20"/><line x1="16" y1="24" x2="16" y2="20"/>
-            <line x1="4" y1="8" x2="0" y2="8"/><line x1="4" y1="16" x2="0" y2="16"/>
-            <line x1="24" y1="8" x2="20" y2="8"/><line x1="24" y1="16" x2="20" y2="16"/>
-          </g>
-          <text x="630" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#2563eb" font-family="Inter,sans-serif">Rendimiento GPU</text>
-          <text x="630" y="122" text-anchor="middle" font-size="10.5" fill="#2563eb" opacity=".7" font-family="'JetBrains Mono',monospace">FASE 3 · OE5</text>
-          <text x="630" y="140" text-anchor="middle" font-size="11" fill="#6b7280" font-family="Inter,sans-serif">WebGPU · BVH · LOD</text>
-        </g>
-
-        <!-- flecha 3→4 + FASE 4 -->
-        <g class="fragment">
-          <line x1="672" y1="50" x2="838" y2="50" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#m-arr)"/>
-          <circle cx="890" cy="50" r="30" fill="var(--panel)" stroke="#d1d5db" stroke-width="1.5"/>
-          <g transform="translate(878,38)" stroke="#059669" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3,13 9.5,19.5 21,5"/>
-          </g>
-          <text x="890" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="#111827" font-family="Inter,sans-serif">Validación</text>
-          <text x="890" y="122" text-anchor="middle" font-size="10.5" fill="#9ca3af" font-family="'JetBrains Mono',monospace">FASE 4 · OE7</text>
-          <text x="890" y="140" text-anchor="middle" font-size="11" fill="#6b7280" font-family="Inter,sans-serif">8 escenarios · FPS · SUS</text>
-        </g>
-
-        <!-- bucle de iteración sobre fases 2–3 -->
-        <g class="fragment">
-          <path d="M 630 12 A 130 38 0 0 0 370 12" fill="none" stroke="#93c5fd" stroke-width="1.3" stroke-dasharray="5,4" marker-end="url(#m-arr-acc)"/>
-          <text x="500" y="-30" text-anchor="middle" font-size="10.5" fill="#2563eb" font-family="Inter,sans-serif" font-style="italic">cada incremento, probado sobre datos reales</text>
-        </g>
-      </svg>
+    <!-- Mensaje central con fragment -->
+    <div class="fragment" style="margin-top:24px;padding:16px 24px;border-top:1px solid var(--hair);display:flex;gap:56px;align-items:center">
+      <div style="flex:1;text-align:center">
+        <div class="cacc" style="font-size:26px;font-weight:800;letter-spacing:-.03em">Expresividad</div>
+        <div class="xs mut" style="margin-top:5px">Preguntas que antes no podían formularse</div>
+      </div>
+      <div style="border-left:1px solid var(--hair);height:48px"></div>
+      <div style="flex:1;text-align:center">
+        <div class="cacc" style="font-size:26px;font-weight:800;letter-spacing:-.03em">Escala</div>
+        <div class="xs mut" style="margin-top:5px">De 5 000 a 100 000 series en tiempo real</div>
+      </div>
     </div>
   </div></div>
-  <aside class="notes">Matiz importante: el nativo ya era un buscador de patrones (TimeBoxes); el TFG lo lleva a otro nivel en dos dimensiones — expresividad y escala. Metodología iterativo-incremental en 4 fases: al evolucionar una herramienta preexistente, los requisitos de interacción no podían fijarse de antemano; cada funcionalidad se probó sobre datos reales antes de la siguiente (un enfoque en cascada habría sido inadecuado). Las fases enlazan con los OE y con la estructura de esta defensa.</aside>
+  <aside class="notes">El nativo ya era un buscador — TimeBoxes, Intersect/Contains, AND/OR. El TFG lo extiende en dos dimensiones: expresividad (curvas como filtro, sliders, ε, lógica completa) y escala (WebGPU + LOD → 100k fluido). Si preguntan por la magnitud: WebGPURenderer.js es un módulo nuevo de 43 KB, el BVH creció de ~55 a ~120 KB, el src total pasó de ~117 a ~250 KB.</aside>
+</section>
+
+<!-- ═══ 5 · METODOLOGÍA ══════════════════════════════════════ -->
+<section>
+  <div class="sw"><div class="sb">
+    <div class="k"><b>Metodología</b> · desarrollo incremental</div>
+    <h2>Secuencial entre dimensiones, incremental dentro de cada una</h2>
+    <div style="margin-top:20px;flex:1;display:flex;flex-direction:column;justify-content:center">
+      <svg viewBox="0 0 1060 210" style="width:100%;height:auto">
+        <defs>
+          <marker id="ma-met" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#cbd5e1"/></marker>
+          <marker id="mb-met" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#93c5fd"/></marker>
+          <marker id="mg-met" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#6ee7b7"/></marker>
+        </defs>
+
+        <!-- FASE 1: Análisis -->
+        <g class="fragment">
+          <circle cx="54" cy="100" r="36" fill="var(--panel)" stroke="#d1d5db" stroke-width="1.5"/>
+          <g transform="translate(41,88)" stroke="#9ca3af" fill="none" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="9" cy="9" r="7"/><line x1="14.5" y1="14.5" x2="20" y2="20"/>
+          </g>
+          <text x="54" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Inter,sans-serif">Análisis</text>
+          <text x="54" y="167" text-anchor="middle" font-size="9" fill="#9ca3af" font-family="'JetBrains Mono',monospace">FASE 1 · OE1</text>
+          <line x1="91" y1="100" x2="111" y2="100" stroke="#d1d5db" stroke-width="1.5" marker-end="url(#ma-met)"/>
+        </g>
+
+        <!-- FASE 2: Expresividad band -->
+        <g class="fragment">
+          <rect x="114" y="42" width="442" height="116" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.2"/>
+          <text x="335" y="58" text-anchor="middle" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing=".14em" fill="#1e40af" font-weight="600">EXPRESIVIDAD · FASE 2 · OE2–4, OE6</text>
+          <!-- Step 1: Curvas activas -->
+          <rect x="124" y="66" width="130" height="80" rx="7" fill="white" stroke="#93c5fd" stroke-width="1.2"/>
+          <text x="189" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af" font-family="Inter,sans-serif">Curvas activas</text>
+          <text x="189" y="108" text-anchor="middle" font-size="9.5" fill="#3b82f6" font-family="'JetBrains Mono',monospace">OE2</text>
+          <text x="189" y="124" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">func · threshold · points</text>
+          <line x1="256" y1="106" x2="270" y2="106" stroke="#93c5fd" stroke-width="1.2" marker-end="url(#mb-met)"/>
+          <!-- Step 2: Sliders + ε -->
+          <rect x="273" y="66" width="130" height="80" rx="7" fill="white" stroke="#93c5fd" stroke-width="1.2"/>
+          <text x="338" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af" font-family="Inter,sans-serif">Sliders + ε</text>
+          <text x="338" y="108" text-anchor="middle" font-size="9.5" fill="#3b82f6" font-family="'JetBrains Mono',monospace">OE3 · OE6</text>
+          <text x="338" y="124" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">above · below · distancia</text>
+          <line x1="405" y1="106" x2="419" y2="106" stroke="#93c5fd" stroke-width="1.2" marker-end="url(#mb-met)"/>
+          <!-- Step 3: Lógica -->
+          <rect x="422" y="66" width="124" height="80" rx="7" fill="white" stroke="#93c5fd" stroke-width="1.2"/>
+          <text x="484" y="89" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af" font-family="Inter,sans-serif">Lógica</text>
+          <text x="484" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af" font-family="Inter,sans-serif">AND·OR·NOT</text>
+          <text x="484" y="121" text-anchor="middle" font-size="9.5" fill="#3b82f6" font-family="'JetBrains Mono',monospace">OE4</text>
+          <text x="484" y="136" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">todos los filtros</text>
+        </g>
+
+        <!-- FASE 3: Rendimiento band + "secuencial" arrow -->
+        <g class="fragment">
+          <line x1="558" y1="100" x2="578" y2="100" stroke="#d1d5db" stroke-width="1.5" marker-end="url(#ma-met)"/>
+          <text x="568" y="91" text-anchor="middle" font-size="8.5" fill="#9ca3af" font-family="Inter,sans-serif" font-style="italic">secuencial</text>
+          <rect x="581" y="42" width="360" height="116" rx="10" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.2"/>
+          <text x="761" y="58" text-anchor="middle" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing=".14em" fill="#065f46" font-weight="600">RENDIMIENTO · FASE 3 · OE5</text>
+          <!-- Step 1: BVH -->
+          <rect x="591" y="66" width="104" height="80" rx="7" fill="white" stroke="#6ee7b7" stroke-width="1.2"/>
+          <text x="643" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46" font-family="Inter,sans-serif">BVH</text>
+          <text x="643" y="112" text-anchor="middle" font-size="9.5" fill="#059669" font-family="'JetBrains Mono',monospace">4 primitivas</text>
+          <text x="643" y="128" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">O(k) incremental</text>
+          <line x1="697" y1="106" x2="708" y2="106" stroke="#6ee7b7" stroke-width="1.2" marker-end="url(#mg-met)"/>
+          <!-- Step 2: WebGPU -->
+          <rect x="711" y="66" width="104" height="80" rx="7" fill="white" stroke="#6ee7b7" stroke-width="1.2"/>
+          <text x="763" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46" font-family="Inter,sans-serif">WebGPU</text>
+          <text x="763" y="112" text-anchor="middle" font-size="9.5" fill="#059669" font-family="'JetBrains Mono',monospace">fachada</text>
+          <text x="763" y="128" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">draw calls O(1)</text>
+          <line x1="817" y1="106" x2="828" y2="106" stroke="#6ee7b7" stroke-width="1.2" marker-end="url(#mg-met)"/>
+          <!-- Step 3: LOD -->
+          <rect x="831" y="66" width="100" height="80" rx="7" fill="white" stroke="#6ee7b7" stroke-width="1.2"/>
+          <text x="881" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46" font-family="Inter,sans-serif">LOD</text>
+          <text x="881" y="112" text-anchor="middle" font-size="9.5" fill="#059669" font-family="'JetBrains Mono',monospace">2 etapas</text>
+          <text x="881" y="128" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter,sans-serif">−50% fragmentos</text>
+        </g>
+
+        <!-- FASE 4: Validación + loop arrow -->
+        <g class="fragment">
+          <line x1="943" y1="100" x2="961" y2="100" stroke="#d1d5db" stroke-width="1.5" marker-end="url(#ma-met)"/>
+          <circle cx="996" cy="100" r="36" fill="var(--panel)" stroke="#d1d5db" stroke-width="1.5"/>
+          <g transform="translate(983,88)" stroke="#059669" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,12 8.5,18.5 20,4"/>
+          </g>
+          <text x="996" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Inter,sans-serif">Validación</text>
+          <text x="996" y="167" text-anchor="middle" font-size="9" fill="#9ca3af" font-family="'JetBrains Mono',monospace">FASE 4 · OE7</text>
+          <!-- Iteration loop arc above Expresividad band -->
+          <path d="M 544 32 A 214 44 0 0 0 126 32" fill="none" stroke="#bfdbfe" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-met)"/>
+          <text x="335" y="20" text-anchor="middle" font-size="9" fill="#3b82f6" font-family="Inter,sans-serif" font-style="italic">cada incremento probado sobre datos reales</text>
+        </g>
+      </svg>
+
+      <!-- Caption below the SVG -->
+      <div style="margin-top:16px;display:flex;gap:32px;font-size:13px;color:var(--mut2)">
+        <span><strong style="color:var(--ink)">Primero</strong> expresividad — saber qué filtrar</span>
+        <span class="mut2">·</span>
+        <span><strong style="color:var(--ink)">Luego</strong> rendimiento — escalarlo a 100k series</span>
+        <span class="mut2">·</span>
+        <span><strong style="color:var(--ink)">Siempre</strong> validado con datos reales de neonatos</span>
+      </div>
+    </div>
+  </div></div>
+  <aside class="notes">Metodología iterativo-incremental en 4 fases. El orden no es arbitrario: primero había que saber QUÉ filtrar (expresividad) antes de optimizar CÓMO renderizarlo (rendimiento). Dentro de cada fase, incremental: cada nueva herramienta (curvas → sliders → ε) añade primitivas al BVH sin romper lo anterior; cada optimización GPU (WebGPU → LOD) se valida antes de la siguiente. Enfoque en cascada habría sido inadecuado: los requisitos de interacción emergían al probar sobre datos reales. El fork mantiene la API pública intacta.</aside>
 </section>
 
 <!-- ═══ 5 · CURVAS: ANTES / AHORA ═════════════════════════ -->
 <section id="sl5">
   <div class="sw"><div class="sb">
     <div class="k"><b>Contribución 1</b> · expresividad</div>
-    <h2>Curvas de referencia: de dibujo a filtro</h2>
-    <!-- SVG ancho único: NATIVO (izq) | TFG activado (der) -->
-    <div style="margin-top:14px;position:relative">
-      <svg id="sl5-svg" viewBox="0 0 880 200" class="fig" style="width:100%">
-        <line x1="16" y1="184" x2="864" y2="184" stroke="#e5e7eb" stroke-width="1"/>
-        <!-- divisor central -->
-        <line x1="444" y1="14" x2="444" y2="184" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5,4"/>
-        <!-- etiquetas panel -->
-        <text x="8" y="12" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing="3" fill="#9ca3af">NATIVO</text>
-        <text class="sl5-after" x="452" y="12" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing="3" fill="#2563eb">TFG — CURVA ACTIVA</text>
+    <h2>La curva −2SD: de <span class="mut2" style="font-weight:400">decoración</span> a <span class="cacc">filtro activo</span></h2>
+    <!-- SVG de ancho completo: el mismo gráfico se transforma por fragmentos -->
+    <div style="margin-top:10px;flex:1;display:flex;flex-direction:column">
+      <!-- Etiqueta de estado -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+        <span id="sl5-label-before" style="font-size:12px;font-family:var(--r-code-font);letter-spacing:.14em;color:var(--mut2)">NATIVO · DECORATIVA</span>
+        <span id="sl5-label-after" style="font-size:12px;font-family:var(--r-code-font);letter-spacing:.14em;color:var(--acc)">TFG · FILTRO ACTIVO — BELOW −2SD</span>
+      </div>
+      <svg id="sl5-svg" viewBox="0 0 880 220" style="width:100%;flex:1;border:1px solid var(--hair);border-radius:10px;background:var(--paper)">
+        <!-- Ejes y contexto -->
+        <line x1="20" y1="200" x2="860" y2="200" stroke="#e5e7eb" stroke-width="1"/>
+        <text x="440" y="218" text-anchor="middle" font-size="9" fill="#9ca3af" font-family="Inter,sans-serif">semanas de seguimiento · Fundación Canguro · Bogotá</text>
 
-        <!-- ══ IZQUIERDA: NATIVO ══ -->
-        <!-- curva −2SD (azul, pero solo decorativa) -->
-        <polyline stroke="#2563eb" stroke-width="2" fill="none" stroke-dasharray="8,5" opacity=".85"
-          points="16,150 65,138 115,130 165,128 215,136 265,148 315,156 365,152 430,147"/>
-        <!-- curva P50 (gris, decorativa) -->
-        <polyline stroke="#c9c9c9" stroke-width="1.4" fill="none" stroke-dasharray="6,4"
-          points="16,108 65,96 115,88 165,86 215,94 265,106 315,114 365,110 430,105"/>
-        <!-- series de pacientes (todas gris claro) -->
-        <polyline stroke="#d1d5db" stroke-width="1.2" fill="none" points="16,60 65,49 115,42 165,44 215,52 265,63 315,72 365,68 430,64"/>
-        <polyline stroke="#d1d5db" stroke-width="1.2" fill="none" points="16,74 65,63 115,55 165,57 215,66 265,77 315,85 365,81 430,77"/>
-        <polyline stroke="#d1d5db" stroke-width="1.2" fill="none" points="16,162 65,170 115,162 165,172 215,165 265,162 315,164 365,161 430,159"/>
-        <polyline stroke="#d1d5db" stroke-width="1.2" fill="none" points="16,174 65,180 115,174 165,182 215,177 265,174 315,175 365,172 430,170"/>
-        <!-- etiquetas nativo -->
-        <text x="270" y="143" fill="#2563eb" font-size="8.5" font-family="Inter,sans-serif">−2SD</text>
-        <text x="270" y="100" fill="#c9c9c9" font-size="8.5" font-family="Inter,sans-serif">P50</text>
-        <!-- X mark -->
-        <text x="80" y="32" fill="#dc2626" font-size="13" font-family="Inter,sans-serif" font-weight="800">✕</text>
-        <text x="98" y="32" fill="#6b7280" font-size="9" font-family="Inter,sans-serif">la curva no puede seleccionar</text>
+        <!-- Series normales (por encima de −2SD): siempre grises → se atenúan con frag 2 -->
+        <polyline class="sl5-normal" stroke="#d1d5db" stroke-width="1.4" fill="none" points="20,62 110,52 210,44 310,42 410,50 510,62 610,72 710,68 840,64"/>
+        <polyline class="sl5-normal" stroke="#d1d5db" stroke-width="1.4" fill="none" points="20,80 110,70 210,61 310,59 410,67 510,79 610,89 710,85 840,81"/>
+        <polyline class="sl5-normal" stroke="#d1d5db" stroke-width="1.4" fill="none" points="20,98 110,87 210,78 310,76 410,84 510,96 610,106 710,102 840,98"/>
+        <polyline class="sl5-normal" stroke="#d1d5db" stroke-width="1.3" fill="none" points="20,118 110,106 210,98 310,96 410,104 510,115 610,124 710,120 840,116"/>
 
-        <!-- ══ DERECHA: TFG activado ══ -->
-        <!-- curva −2SD activa (azul) — aparece con fragmento -->
-        <polyline class="sl5-curve-active" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="8,5"
-          points="452,150 501,138 551,130 601,128 651,136 701,148 751,156 801,152 864,147"/>
-        <!-- curva P50 activa (gris, permanece) -->
-        <polyline stroke="#c9c9c9" stroke-width="1.4" fill="none" stroke-dasharray="6,4"
-          points="452,108 501,96 551,88 601,86 651,94 701,106 751,114 801,110 864,105"/>
-        <!-- slider ABOVE: sección con márgenes x∈[501,751] -->
-        <polygon class="sl5-corridor" fill="rgba(37,99,235,.08)" stroke="none"
-          points="501,138 551,130 601,128 651,136 701,148 751,156 751,40 501,40"/>
-        <line class="sl5-corridor" x1="501" y1="40" x2="501" y2="138" stroke="#1d4ed8" stroke-width="1.3" stroke-linecap="round"/>
-        <line class="sl5-corridor" x1="751" y1="40" x2="751" y2="156" stroke="#1d4ed8" stroke-width="1.3" stroke-linecap="round"/>
-        <line class="sl5-corridor" x1="501" y1="40" x2="751" y2="40" stroke="#1d4ed8" stroke-width="1" stroke-dasharray="5,4" opacity=".8"/>
-        <rect class="sl5-corridor" x="498" y="82" width="6" height="13" rx="2.5" fill="#1d4ed8"/>
-        <rect class="sl5-corridor" x="748" y="90" width="6" height="13" rx="2.5" fill="#1d4ed8"/>
-        <!-- series que cruzan el slider: gris → rojas con fragmento -->
-        <polyline class="sl5-above" stroke="#d1d5db" stroke-width="1.8" fill="none"
-          style="transition:stroke .9s;transition-delay:.1s"
-          points="452,60 501,49 551,42 601,44 651,52 701,63 751,72 801,68 864,64"/>
-        <polyline class="sl5-above" stroke="#d1d5db" stroke-width="1.8" fill="none"
-          style="transition:stroke .9s;transition-delay:.25s"
-          points="452,74 501,63 551,55 601,57 651,66 701,77 751,85 801,81 864,77"/>
-        <!-- series bajo la curva: fuera de la selección, grises -->
-        <polyline stroke="#d1d5db" stroke-width="1.1" fill="none"
-          points="452,162 501,170 551,162 601,172 651,165 701,162 751,164 801,161 864,159"/>
-        <polyline stroke="#d1d5db" stroke-width="1.1" fill="none"
-          points="452,174 501,180 551,174 601,182 651,177 701,174 751,175 801,172 864,170"/>
-        <!-- etiquetas TFG -->
-        <text x="780" y="143" fill="#2563eb" font-size="8.5" font-family="Inter,sans-serif" font-weight="600" class="sl5-after">−2SD activa</text>
-        <!-- checkmark -->
-        <text class="sl5-after" x="490" y="26" fill="#059669" font-size="13" font-family="Inter,sans-serif" font-weight="800">✓</text>
-        <text class="sl5-after" x="508" y="26" fill="#059669" font-size="9" font-family="Inter,sans-serif" font-weight="600">la curva selecciona series directamente</text>
+        <!-- Zona de riesgo (below −2SD): aparece con fragmento 1 -->
+        <polygon id="sl5-zone-fill" fill="rgba(220,38,38,.07)" stroke="none"
+          points="20,155 110,143 210,133 310,131 410,139 510,151 610,161 710,158 840,154 840,200 20,200"/>
+
+        <!-- Curva P50: siempre decorativa (gris punteada) -->
+        <polyline stroke="#e0e0e0" stroke-width="1.2" fill="none" stroke-dasharray="6,4"
+          points="20,100 110,88 210,78 310,76 410,85 510,97 610,107 710,103 840,99"/>
+        <text x="844" y="100" font-size="9" fill="#c9c9c9" font-family="Inter,sans-serif">P50</text>
+
+        <!-- Curva −2SD: arranca gris punteada, se transforma con fragmento 1 -->
+        <polyline id="sl5-ref-curve" stroke="#c0c4cc" stroke-width="1.8" fill="none" stroke-dasharray="8,5"
+          points="20,155 110,143 210,133 310,131 410,139 510,151 610,161 710,158 840,154"/>
+        <text id="sl5-curve-label" x="846" y="156" font-size="9" fill="#c0c4cc" font-family="Inter,sans-serif">−2SD</text>
+
+        <!-- Series en riesgo (below −2SD): grises → rojas con fragmento 2 -->
+        <polyline class="sl5-at-risk" stroke="#e5e7eb" stroke-width="1.8" fill="none" style="transition-delay:.1s"
+          points="20,170 110,178 210,184 310,186 410,180 510,175 610,173 710,177 840,179"/>
+        <polyline class="sl5-at-risk" stroke="#e5e7eb" stroke-width="1.8" fill="none" style="transition-delay:.28s"
+          points="20,182 110,190 210,195 310,197 410,191 510,187 610,185 710,189 840,191"/>
+
+        <!-- Contador de selección (fragmento 2) -->
+        <g id="sl5-count">
+          <rect x="688" y="36" width="164" height="30" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+          <text x="770" y="55" text-anchor="middle" font-size="11" fill="#b91c1c" font-family="Inter,sans-serif" font-weight="600">2 neonatos en riesgo ▼</text>
+        </g>
+
+        <!-- Etiqueta X sobre curva (fragmento 1): "ningún filtro" -->
+        <g id="sl5-x-mark">
+          <text x="26" y="28" fill="#dc2626" font-size="14" font-weight="800" font-family="Inter,sans-serif">✕</text>
+          <text x="44" y="28" fill="#9ca3af" font-size="9.5" font-family="Inter,sans-serif">la curva no puede seleccionar</text>
+        </g>
+        <!-- Etiqueta ✓ (fragmento 1): "la curva es filtro" -->
+        <g id="sl5-check-mark">
+          <text x="26" y="28" fill="#059669" font-size="14" font-weight="800" font-family="Inter,sans-serif">✓</text>
+          <text x="44" y="28" fill="#059669" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">la curva −2SD selecciona directamente · below · above · proximidad ε</text>
+        </g>
       </svg>
-    </div>
-    <!-- Texto siempre visible — se activa al entrar en la slide -->
-    <div style="margin-top:14px;font-size:14px;display:flex;align-items:center;gap:18px">
-      <span class="csel" style="font-size:18px">✕</span>
-      <span class="mut">NATIVO — la curva −2SD es solo un overlay: ningún filtro puede usarla</span>
-      <span class="mut2" style="padding:0 8px">→</span>
-      <span class="cok" style="font-size:18px">✓</span>
-      <span class="mut">TFG — la misma curva <strong style="color:var(--ink)">selecciona series above · below · por proximidad ε</strong></span>
-    </div>
-    <div style="margin-top:14px;font-size:13px;display:flex;gap:18px;align-items:center">
-      <span class="mut2 xs">Tres tipos:</span>
-      <span class="tag">func</span><span class="mut xs">función continua</span>
-      <span class="mut2">·</span>
-      <span class="tag">threshold</span><span class="mut xs">umbral horizontal o lineal</span>
-      <span class="mut2">·</span>
-      <span class="tag">points</span><span class="mut xs">puntos discretos — tolerancia ε ajustable en tiempo real</span>
+
+      <!-- Fila inferior: explicación + tags -->
+      <div style="margin-top:12px;display:flex;align-items:center;gap:16px;font-size:13px">
+        <div id="sl5-before-row" style="display:flex;align-items:center;gap:8px">
+          <span class="csel" style="font-size:16px;font-weight:700">✕</span>
+          <span class="mut">NATIVO: la curva −2SD existe, <strong style="color:var(--ink)">ningún filtro puede anclarse a ella</strong></span>
+        </div>
+        <div id="sl5-after-row" style="display:flex;align-items:center;gap:8px">
+          <span class="cok" style="font-size:16px;font-weight:700">✓</span>
+          <span class="mut">TFG: la misma curva <strong style="color:var(--ink)">selecciona above · below · por proximidad ε</strong></span>
+        </div>
+      </div>
+      <div id="sl5-tags" style="margin-top:8px;display:flex;gap:14px;align-items:center;font-size:12px">
+        <span class="mut2 xs">Tres tipos:</span>
+        <span class="tag">func</span><span class="mut xs">función continua</span>
+        <span class="mut2">·</span>
+        <span class="tag">threshold</span><span class="mut xs">umbral horizontal</span>
+        <span class="mut2">·</span>
+        <span class="tag">points</span><span class="mut xs">puntos discretos · tolerancia ε ajustable en tiempo real</span>
+      </div>
+
+      <!-- Fragmentos invisibles (gatillan el JS) -->
+      <span class="fragment" data-fragment-index="0" style="display:none"></span>
+      <span class="fragment" data-fragment-index="1" style="display:none"></span>
+      <span class="fragment" data-fragment-index="2" style="display:none"></span>
     </div>
   </div></div>
-  <aside class="notes">El gancho clínico: ¿quién crece por debajo de −2SD? NATIVO: la curva −2SD existe pero es decorativa, ningún filtro puede anclarse a ella. TFG: la misma curva se convierte en frontera activa → selecciona directamente los pacientes en riesgo. El ejemplo es el canguro.html con datos reales de la Fundación. Tres tipos de curva según el dato clínico disponible (func/threshold/points); la complejidad de integración O(k) está en el anexo BVH.</aside>
+  <aside class="notes">El gancho clínico: ¿quién crece por debajo de −2SD? NATIVO: la curva −2SD existe pero es decorativa — ningún filtro puede anclarse a ella. Con fragmento 1, la curva se convierte en frontera activa (pasa de gris punteada a azul sólida) y aparece la zona roja de riesgo bajo la curva. Con fragmento 2, las dos series que caen en esa zona se iluminan en rojo — los neonatos en riesgo de la Fundación. Tres tipos de curva según el dato clínico disponible: func (función continua), threshold (umbral) y points (puntos discretos con tolerancia ε). La integración en BVH es O(k): solo las series candidatas son probadas por la primitiva exacta.</aside>
 </section>
 
 <!-- ═══ 6 · HERRAMIENTAS + LÓGICA ═════════════════════════ -->
@@ -689,10 +761,6 @@
             <!-- serie fuera de la sección: no seleccionada (gris) -->
             <polyline stroke="#d1d5db" stroke-width="1.3" fill="none"
               points="16,148 50,156 88,148 128,162 168,153 208,149 248,151 268,148"/>
-            <!-- labels -->
-            <rect x="72" y="28" width="92" height="15" rx="3" fill="rgba(219,234,254,.9)"/>
-            <text x="118" y="40" text-anchor="middle" fill="#1d4ed8" font-size="13" font-family="Inter,sans-serif" font-weight="700">slider above</text>
-            <text x="16" y="12" fill="#2563eb" font-size="8" font-family="'JetBrains Mono',monospace" opacity=".8">slider · corredor above</text>
           </g>
 
           <!-- ═ CAPA B: PUNTOS DISCRETOS + ε (auto-play) ═ -->
@@ -787,18 +855,18 @@
       </div>
     </div>
     <!-- Limitaciones -->
-    <div data-id="arch-limits" style="margin-top:32px;display:flex;gap:28px">
-      <div class="fragment" style="border-left:2px solid var(--sel);padding-left:12px;font-size:13px">
+    <div data-id="arch-limits" style="margin-top:20px;border-top:1px solid var(--hair);padding-top:14px;display:flex;gap:32px">
+      <div style="flex:1;font-size:13px">
         <div style="font-weight:600;color:var(--sel)">Curvas no consultables</div>
-        <div class="mut xs" style="margin-top:2px">Solo overlay — ningún filtro anclable</div>
+        <div class="mut2 xs" style="margin-top:2px">Solo overlay — ningún filtro anclable</div>
       </div>
-      <div class="fragment" style="border-left:2px solid var(--sel);padding-left:12px;font-size:13px">
-        <div style="font-weight:600;color:var(--sel)">Sin sliders ni ε</div>
-        <div class="mut xs" style="margin-top:2px">Tipos de filtro inexistentes</div>
+      <div style="flex:1;font-size:13px">
+        <div style="font-weight:600;color:var(--sel)">Sin sliders ni proximidad ε</div>
+        <div class="mut2 xs" style="margin-top:2px">Tipos de filtro inexistentes</div>
       </div>
-      <div class="fragment" style="border-left:2px solid var(--sel);padding-left:12px;font-size:13px">
-        <div style="font-weight:600;color:var(--sel)">CPU-bound</div>
-        <div class="mut xs" style="margin-top:2px">Bloqueante con N elevado</div>
+      <div style="flex:1;font-size:13px">
+        <div style="font-weight:600;color:var(--sel)">CPU-bound a N ≈ 5 000</div>
+        <div class="mut2 xs" style="margin-top:2px">Canvas 2D sin alternativa de renderizado</div>
       </div>
     </div>
   </div></div>
@@ -858,19 +926,19 @@
         <div class="xs" style="margin-top:16px;text-align:center;font-style:italic;color:var(--acc)">doble motor · transparente al cliente</div>
       </div>
     </div>
-    <!-- Resumen 3 capas -->
-    <div data-id="arch-limits" class="fragment" style="margin-top:28px;display:flex;gap:28px">
-      <div style="border-left:2px solid var(--acc);padding-left:12px;font-size:13px">
+    <!-- Mejoras 3 capas -->
+    <div data-id="arch-limits" style="margin-top:20px;border-top:1px solid var(--hair);padding-top:14px;display:flex;gap:32px">
+      <div style="flex:1;font-size:13px">
         <div style="font-weight:600;color:var(--acc)">Capa espacial</div>
-        <div class="mut xs" style="margin-top:2px">3 categorías de entidad · O(k) incremental</div>
+        <div class="mut2 xs" style="margin-top:2px">4 primitivas BVH · O(k) incremental</div>
       </div>
-      <div style="border-left:2px solid var(--acc);padding-left:12px;font-size:13px">
+      <div style="flex:1;font-size:13px">
         <div style="font-weight:600;color:var(--acc)">Capa de filtrado</div>
-        <div class="mut xs" style="margin-top:2px">AND / OR / NOT sobre contrato getResults()</div>
+        <div class="mut2 xs" style="margin-top:2px">AND / OR / NOT · contrato getResults()</div>
       </div>
-      <div style="border-left:2px solid var(--acc);padding-left:12px;font-size:13px">
+      <div style="flex:1;font-size:13px">
         <div style="font-weight:600;color:var(--acc)">Capa gráfica</div>
-        <div class="mut xs" style="margin-top:2px">WebGPU con fallback transparente al cliente</div>
+        <div class="mut2 xs" style="margin-top:2px">WebGPU con fallback transparente al cliente</div>
       </div>
     </div>
   </div></div>
@@ -1158,11 +1226,11 @@
           <text x="190" y="118" text-anchor="middle" fill="#dc2626" font-size="8" font-family="'JetBrains Mono',monospace">recibe N drawcalls desde CPU</text>
           <!-- resultados del benchmark (fase 3) -->
           <g class="cv-res" text-anchor="middle">
-            <text x="80"  y="168" fill="#6b7280" font-size="21" font-family="'JetBrains Mono',monospace" font-weight="700">70.9</text>
+            <text x="80"  y="168" fill="#6b7280" font-size="21" font-family="'JetBrains Mono',monospace" font-weight="700">90.1</text>
             <text x="80"  y="184" fill="#6b7280" font-size="8.5" font-family="Inter,sans-serif">fps · N=1 000</text>
-            <text x="190" y="168" fill="#dc2626" font-size="21" font-family="'JetBrains Mono',monospace" font-weight="800">16.2</text>
-            <text x="190" y="184" fill="#dc2626" font-size="8.5" font-family="Inter,sans-serif">fps · N=5 000 · ✕ inutilizable</text>
-            <text x="300" y="168" fill="#dc2626" font-size="26" font-family="'JetBrains Mono',monospace" font-weight="800">0.9</text>
+            <text x="190" y="168" fill="#dc2626" font-size="21" font-family="'JetBrains Mono',monospace" font-weight="800">10.1</text>
+            <text x="190" y="184" fill="#dc2626" font-size="8.5" font-family="Inter,sans-serif">fps · N=10 000 · ✕ inutilizable</text>
+            <text x="300" y="168" fill="#dc2626" font-size="26" font-family="'JetBrains Mono',monospace" font-weight="800">1.0</text>
             <text x="300" y="184" fill="#dc2626" font-size="8.5" font-family="Inter,sans-serif">fps · N=100 000</text>
             <text x="190" y="207" text-anchor="middle" fill="#374151" font-size="9" font-family="'JetBrains Mono',monospace">degradación lineal con N — el modelo es secuencial</text>
           </g>
@@ -1172,7 +1240,7 @@
       </div>
     </div>
   </div></div>
-  <aside class="notes">Bucle de 3 fases. ① El nativo dibuja con Canvas 2D: un for sobre las N series y una llamada ctx.stroke() por serie — cada bloque rojo del timeline es un stroke. ② Esos bloques son secuenciales en un solo core: con N grande el frame rebasa el presupuesto de 16.6 ms (línea roja). ③ Importante matiz: Canvas 2D sí usa la GPU para rasterizar — el procesador gráfico sí trabaja. El verdadero cuello son los N drawcalls independientes: cada ctx.stroke() es una llamada separada al driver con sincronización CPU&GPU. No se pueden agrupar con Path2D si cada serie necesita su propio color u opacidad. Números (Intel UHD): 70.9 fps N=1k, 16.2 N=5k — inutilizable —, 0.9 N=100k. La degradación es lineal porque el modelo es inherentemente secuencial; hay que cambiar de modelo, no optimizarlo.</aside>
+  <aside class="notes">Bucle de 3 fases. ① El nativo dibuja con Canvas 2D: un for sobre las N series y una llamada ctx.stroke() por serie — cada bloque rojo del timeline es un stroke. ② Esos bloques son secuenciales en un solo core: con N grande el frame rebasa el presupuesto de 16.6 ms (línea roja). ③ Importante matiz: Canvas 2D sí usa la GPU para rasterizar — el procesador gráfico sí trabaja. El verdadero cuello son los N drawcalls independientes: cada ctx.stroke() es una llamada separada al driver con sincronización CPU&GPU. No se pueden agrupar con Path2D si cada serie necesita su propio color u opacidad. Números (Intel UHD, sin LOD): 90.1 fps N=1k, 10.1 N=10k — inutilizable —, 1.0 N=100k. La degradación es lineal porque el modelo es inherentemente secuencial; hay que cambiar de modelo, no optimizarlo.</aside>
 </section>
 
 <!-- ═══ 13 · WEBGPU — LA MIGRACIÓN ═══════════════════════ -->
@@ -1256,8 +1324,8 @@
             <circle r="4.5" fill="#059669">
               <animateMotion dur="1.7s" repeatCount="indefinite" path="M190,73 L190,102 L100,102 L100,133"/>
             </circle>
-            <text x="100" y="174" text-anchor="middle" fill="#059669" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="700">16.7 fps · N=100k</text>
-            <text x="280" y="174" text-anchor="middle" fill="#dc2626" font-size="10" font-family="'JetBrains Mono',monospace">0.9 fps · N=100k</text>
+            <text x="100" y="174" text-anchor="middle" fill="#059669" font-size="11" font-family="'JetBrains Mono',monospace" font-weight="700">9.2 fps · N=100k</text>
+            <text x="280" y="174" text-anchor="middle" fill="#dc2626" font-size="10" font-family="'JetBrains Mono',monospace">1.0 fps · N=100k</text>
           </g>
           <text class="gp-g gp-cap" x="190" y="205" text-anchor="middle" fill="#374151" font-size="9" font-family="'JetBrains Mono',monospace">API idéntica — TimeWidget.js no cambia ni una línea</text>
         </svg>
@@ -1266,7 +1334,7 @@
       </div>
     </div>
   </div></div>
-  <aside class="notes">Misma mecánica de 3 fases que las slides anteriores. ① TimeLineOverview se convierte en fachada: una sola detección al inicializar con navigator.gpu?.requestAdapter() — esa pregunta se hace una vez, no por frame. ② Si hay adapter, instancia WebGPURenderer; si no, cae a Canvas 2D automáticamente. La API es idéntica: TimeWidget.js, el cliente, no cambia ni una línea (rama azul "sí", rama gris "no"). ③ La diferencia estructural: la geometría se sube a la GPU una sola vez al inicio (writeBuffer) y cada frame ejecuta un número constante de pasadas lógicas (≤11 drawIndexed(), independiente de N) — frente a las N llamadas stroke() de Canvas. Si preguntan por las pasadas: transparencia de grupos, selección, mediana, etc. Resultado: 16.7 fps frente a 0.9 con N=100k. La ventaja crece con N porque no es una microoptimización: es un cambio de modelo de ejecución.</aside>
+  <aside class="notes">Misma mecánica de 3 fases que las slides anteriores. ① TimeLineOverview se convierte en fachada: una sola detección al inicializar con navigator.gpu?.requestAdapter() — esa pregunta se hace una vez, no por frame. ② Si hay adapter, instancia WebGPURenderer; si no, cae a Canvas 2D automáticamente. La API es idéntica: TimeWidget.js, el cliente, no cambia ni una línea (rama azul "sí", rama gris "no"). ③ La diferencia estructural: la geometría se sube a la GPU una sola vez al inicio (writeBuffer) y cada frame ejecuta un número constante de pasadas lógicas (≤11 drawIndexed(), independiente de N) — frente a las N llamadas stroke() de Canvas. Si preguntan por las pasadas: transparencia de grupos, selección, mediana, etc. Resultado (sin LOD): 9.2 fps frente a 1.0 con N=100k. La ventaja crece con N porque no es una microoptimización: es un cambio de modelo de ejecución; con LOD activo (slide de optimizaciones) WebGPU sube a 17.1 fps en ese mismo N.</aside>
 </section>
 
 <!-- ═══ 14 · OPTIMIZACIONES ═══════════════════════════════ -->
@@ -1722,11 +1790,11 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
           <div style="color:#374151">styleBuffer.update(colors) <span style="color:#9ca3af;font-size:11px">// GPU buffer</span></div>
           <div style="color:#374151">device.<span class="cok">draw</span>() <span style="color:#059669;font-size:11px">← ≤11 draws · O(1)</span></div>
         </div>
-        <div class="figcap" style="text-align:center">16.7 fps (WebGPU) vs 0.9 fps (Canvas 2D) · N=100 000</div>
+        <div class="figcap" style="text-align:center">9.2 fps (WebGPU) vs 1.0 fps (Canvas 2D) · N=100 000 · sin LOD</div>
       </div>
     </div>
   </div></div>
-  <aside class="notes">Respuesta a la pregunta del tribunal sobre reducir los stroke(). Canvas sí usa GPU para rasterizar — lo incorrecto sería decir que la GPU está ociosa. El verdadero cuello es que cada ctx.stroke() es un drawcall independiente al driver con sincronización CPU→GPU. Con N=100k → 100k sincronizaciones. Path2D puede agrupar geometrías pero necesita el mismo strokeStyle para todo el batch; imposible con selección por color/opacidad por serie. OffscreenCanvas desbloquea el hilo UI pero no elimina los N drawcalls. LOD reduce puntos pero no drawcalls. WebGPU cambia el modelo: geometría subida una vez, estilos en buffer GPU, draw calls constantes (≤11 pasadas lógicas, independiente de N). Si preguntan cuántas pasadas: una por tipo de primitiva/transparencia según la selección activa. Por eso el factor de mejora crece con N: 1.04× a N=500, 19.18× a N=100k.</aside>
+  <aside class="notes">Respuesta a la pregunta del tribunal sobre reducir los stroke(). Canvas sí usa GPU para rasterizar — lo incorrecto sería decir que la GPU está ociosa. El verdadero cuello es que cada ctx.stroke() es un drawcall independiente al driver con sincronización CPU→GPU. Con N=100k → 100k sincronizaciones. Path2D puede agrupar geometrías pero necesita el mismo strokeStyle para todo el batch; imposible con selección por color/opacidad por serie. OffscreenCanvas desbloquea el hilo UI pero no elimina los N drawcalls. LOD reduce puntos pero no drawcalls. WebGPU cambia el modelo: geometría subida una vez, estilos en buffer GPU, draw calls constantes (≤11 pasadas lógicas, independiente de N). Si preguntan cuántas pasadas: una por tipo de primitiva/transparencia según la selección activa. Por eso el factor de mejora crece con N: 1.00× a N=500, 8.88× a N=100k sin LOD (8.18× con LOD activo).</aside>
 </section>
 
 </div>
@@ -1737,6 +1805,18 @@ FASE 6 (6.º clic — Proximidad ε): "Y el cuarto tipo: filtro de proximidad ε
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/notes.js"></script>
 <script>
+(async () => {
+  try {
+    const cfg = await fetch('slides-config.json').then(r => r.json());
+    const secs = [...document.querySelectorAll('.slides > section')];
+    for (const entry of cfg.hidden ?? []) {
+      const el = typeof entry === 'number'
+        ? secs[entry - 1]
+        : document.getElementById(String(entry));
+      if (el) el.setAttribute('data-visibility', 'hidden');
+    }
+  } catch {}
+
 Reveal.initialize({
   width:1280, height:720, margin:.04, minScale:.2, maxScale:2,
   hash:true, transition:'fade', backgroundTransition:'fade', transitionSpeed:'fast',
@@ -1763,7 +1843,7 @@ Reveal.on('slidechanged', e => {
   const currH = Reveal.getIndices(s).h;
   const prevH = p ? Reveal.getIndices(p).h : -1;
   const fromEnd = prevH > currH;
-  if (s.id === 'sl5')     setTimeout(() => s.classList.add('sl5-active'), 120);
+  if (s.id === 'sl5')     { s.classList.remove('sl5-f1','sl5-f2','sl5-f3'); }
   if (s.id === 'sl6')    { s.classList.remove('sl6-layer-a','sl6-layer-b'); s.classList.add('sl6-layer-a'); }
   if (s.id === 'sl-bvh')  startBvh(fromEnd);
   if (s.id === 'sl-fn')   startFn(fromEnd);
@@ -1784,6 +1864,11 @@ Reveal.on('fragmentshown', e => {
     if (id === 'sl-cv')   cvLoop.next();
     if (id === 'sl-gpu1') gpLoop.next();
     return;
+  }
+  if (s?.id === 'sl5') {
+    const idx = parseInt(e.fragment.dataset.fragmentIndex ?? '0');
+    s.classList.remove('sl5-f1','sl5-f2','sl5-f3');
+    s.classList.add('sl5-f' + (idx + 1));
   }
   if (e.fragment.id === 'factor-frag') countUpFactor();
   if (s?.id === 'sl-demo' && e.fragment.classList.contains('demo-phase-frag')) {
@@ -1811,6 +1896,11 @@ Reveal.on('fragmenthidden', e => {
   }
   if (s?.id === 'sl6' && e.fragment.dataset.fragmentIndex === '1') {
     s.classList.remove('sl6-layer-b'); s.classList.add('sl6-layer-a');
+  }
+  if (s?.id === 'sl5') {
+    const idx = parseInt(e.fragment.dataset.fragmentIndex ?? '0');
+    s.classList.remove('sl5-f1','sl5-f2','sl5-f3');
+    if (idx > 0) s.classList.add('sl5-f' + idx);
   }
 });
 
@@ -2043,6 +2133,7 @@ function countUpFactor(){
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 }
+})();
 </script>
 </body>
 </html>
