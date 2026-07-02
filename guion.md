@@ -74,7 +74,7 @@ El objetivo de este TFG es claro: transformar TimeWidget de un *visualizador* en
 
 ## Diapositiva 5 — Metodología (0:25)
 
-La metodología sigue cuatro fases secuenciales entre dimensiones e incrementales dentro de cada una: primero el análisis del sistema nativo, después la expresividad —curvas activas, sliders y ε, lógica booleana—, luego el rendimiento —BVH, WebGPU, LOD— y por último la validación. El orden no es arbitrario: había que saber qué filtrar antes de optimizar cómo renderizarlo, y cada incremento se probó sobre datos reales de neonatos.
+La metodología sigue cuatro fases secuenciales entre dimensiones e incrementales dentro de cada una: primero el análisis del sistema nativo, después la expresividad —curvas activas, sliders y ε, lógica booleana—, luego el rendimiento —BVH, WebGPU, LOD— y por último la validación. El orden no es arbitrario: había que saber qué filtrar antes de optimizar cómo renderizarlo. Y la validación no es solo el último paso: cada incremento de expresividad y cada optimización de rendimiento se probó sobre datos reales de neonatos antes de dar por cerrada esa pieza; la fase final —los 8/8 escenarios y el SUS de 88,0— cierra esa cadena de validaciones parciales, no la sustituye.
 
 ---
 

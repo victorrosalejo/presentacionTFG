@@ -546,7 +546,16 @@
             <span class="tag">Sliders + ε en vivo</span>
             <span class="tag">Lógica AND / OR / NOT</span>
           </div>
+          <div style="margin-top:7px;display:flex;align-items:center;gap:5px">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#059669;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"><polyline points="4,12 9.5,18 20,5"/></svg>
+            <span class="xs" style="color:var(--ok);font-style:italic">cada incremento, validado sobre datos reales antes de seguir</span>
+          </div>
         </div>
+      </div>
+
+      <!-- conector: validación continua alimenta la validación final -->
+      <div style="position:relative;display:flex;gap:24px;padding-left:60px;margin-left:24px">
+        <div style="border-left:2px dashed #a7f3d0;height:14px"></div>
       </div>
 
       <!-- FASE 3: Rendimiento -->
@@ -564,20 +573,24 @@
             <span class="tag" style="color:#065f46;border-color:#6ee7b7;background:#ecfdf5">WebGPU · fachada</span>
             <span class="tag" style="color:#065f46;border-color:#6ee7b7;background:#ecfdf5">LOD · 2 etapas</span>
           </div>
+          <div style="margin-top:7px;display:flex;align-items:center;gap:5px">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#059669;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"><polyline points="4,12 9.5,18 20,5"/></svg>
+            <span class="xs" style="color:var(--ok);font-style:italic">cada optimización, medida en benchmark antes de la siguiente</span>
+          </div>
         </div>
       </div>
 
-      <!-- FASE 4: Validación -->
+      <!-- FASE 4: Validación final -->
       <div class="fragment" style="position:relative;display:flex;gap:24px;align-items:center;padding:12px 0">
         <div style="flex-shrink:0;width:60px;height:60px;border-radius:50%;background:var(--paper);border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center">
           <svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#059669;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><polyline points="4,12 9.5,18 20,5"/></svg>
         </div>
         <div>
           <div style="display:flex;align-items:baseline;gap:10px">
-            <span style="font-weight:700;font-size:18px;color:var(--ink)">Validación</span>
+            <span style="font-weight:700;font-size:18px;color:var(--ink)">Validación final</span>
             <span class="mono" style="font-size:10px;color:var(--mut2);letter-spacing:.12em">FASE 4 · OE7</span>
           </div>
-          <div class="mut sm" style="margin-top:3px">Cada incremento probado sobre datos reales de neonatos</div>
+          <div class="mut sm" style="margin-top:3px">Cierra la cadena de validaciones parciales: 8/8 escenarios funcionales · SUS 88,0</div>
         </div>
       </div>
     </div>
@@ -591,7 +604,7 @@
       <span><strong style="color:var(--ink)">Siempre</strong> validado con datos reales de neonatos</span>
     </div>
   </div></div>
-  <aside class="notes">Metodología iterativo-incremental en 4 fases. El orden no es arbitrario: primero había que saber QUÉ filtrar (expresividad) antes de optimizar CÓMO renderizarlo (rendimiento). Dentro de cada fase, incremental: cada nueva herramienta (curvas → sliders → ε) añade primitivas al BVH sin romper lo anterior; cada optimización GPU (WebGPU → LOD) se valida antes de la siguiente. Enfoque en cascada habría sido inadecuado: los requisitos de interacción emergían al probar sobre datos reales. El fork mantiene la API pública intacta.</aside>
+  <aside class="notes">Metodología iterativo-incremental en 4 fases. El orden no es arbitrario: primero había que saber QUÉ filtrar (expresividad) antes de optimizar CÓMO renderizarlo (rendimiento). Dentro de cada fase, incremental: cada nueva herramienta (curvas → sliders → ε) añade primitivas al BVH sin romper lo anterior; cada optimización GPU (WebGPU → LOD) se valida antes de la siguiente. La validación NO es solo la fase 4: es continua, sobre datos reales, en cada incremento de fases 2 y 3 (marcado con el check verde bajo cada fila de tags); la fase 4 es la validación FINAL y formal —8/8 escenarios, SUS 88,0— que cierra esa cadena. Enfoque en cascada habría sido inadecuado: los requisitos de interacción emergían al probar sobre datos reales. El fork mantiene la API pública intacta.</aside>
 </section>
 
 <!-- ═══ 5 · CURVAS: ANTES / AHORA ═════════════════════════ -->
