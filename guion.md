@@ -50,7 +50,7 @@ Este trabajo ha sido tutorizado por Iván Velasco González y Sofía Bayona Beri
 
 ## Diapositiva 2 — Índice (0:20)
 
-El trabajo se organiza en tres bloques: primero el contexto y el punto de partida, después las tres contribuciones técnicas, y finalmente los resultados, la validación y las conclusiones.
+El trabajo se organiza en cinco bloques: contexto y problema, punto de partida con el objetivo y la metodología, las tres contribuciones técnicas —el núcleo del trabajo—, los resultados y su validación, y por último las conclusiones y el trabajo futuro.
 
 ---
 
